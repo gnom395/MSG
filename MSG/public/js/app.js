@@ -43792,7 +43792,7 @@ var render = function () {
           }
           return _vm.sendMessage.apply(null, arguments)
         },
-        checked: _vm.action,
+        keydown: _vm.action,
         input: function ($event) {
           if ($event.target.composing) {
             return

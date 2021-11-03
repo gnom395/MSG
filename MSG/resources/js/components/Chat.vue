@@ -4,7 +4,7 @@
 
         <textarea class="form-control" rows="10">{{ this.message.join('\n') }}</textarea>
 
-        <input type="text" class="form-control" v-model="textMessage" @keyup.enter="sendMessage" @checked="action">
+        <input type="text" class="form-control" v-model="textMessage" @keyup.enter="sendMessage" @keydown="action">
         <span v-if="isActive">{{ isActive.name }} набирает текст</span>
 
     </div>
