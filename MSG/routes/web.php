@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-
+//use App\Events\Message;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,4 +19,14 @@ use App\Http\Controllers\MainController;
 //    return view('welcome');
 //});
 
-Route::get('/{any}', [MainController::class, 'EnterOk'])->where('any', '.*');
+Route::post('/messages', function(Request $request) {
+    App\Events\Message::dispatch($request->input('body'));
+});
+
+Route::view('/', 'index');
+
+//Route::get('/', [MainController::class, 'EnterOk']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

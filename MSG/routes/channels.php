@@ -19,6 +19,17 @@ use App\Models\Order;
 //    return (int) $user->id === (int) $id;
 //});
 
-Broadcast::channel('orders.{orderId}', function ($user, $orderId) {
-    return $user->id === Order::findOrNew($orderId)->user_id;
-});
+//Broadcast::channel('orders.{orderId}', function ($user, $orderId) {
+//    return $user->id === Order::findOrNew($orderId)->user_id;
+//});
+//Broadcast::channel('chat', function ($message) {
+//    return true;
+//});
+//Broadcast::channel('chat2', function ($user,$message) {
+//    return true;
+//});
+//Broadcast::channel('chat', OrderChannel::class);
+
+//Broadcast::channel('chat', function ($user) {
+//    return $user;
+//});

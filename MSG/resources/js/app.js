@@ -4,16 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-
-
 require('./bootstrap');
 
 window.Vue = require('vue').default;
-import Vue from 'vue'
-
-
-import BootstrapVue from 'bootstrap-vue' //Importing
-Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 
 /**
  * The following block of code may be used to automatically register your
@@ -26,7 +19,7 @@ Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('v-header', require('./components/Header.vue').default);
+Vue.component('chat', require('./components/Chat.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -34,12 +27,6 @@ Vue.component('v-header', require('./components/Header.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
- import router from "./router"
-
- //import vuetify from "./vuetify"
-
- const app = new Vue({
-     el: '#app',
- //    vuetify,
-     router
- });
+const app = new Vue({
+    el: '#app',
+});

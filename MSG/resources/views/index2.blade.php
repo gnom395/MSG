@@ -1,10 +1,9 @@
-@extends('layouts.app')
+@extends('layout.app')
 
 @section('content')
-
   <div class="container">
 
-<Chat></Chat>
+
   </div>
 
 @endsection

@@ -1,6 +1,11 @@
 <template>
     <div>
-        <h1>Блог</h1>
+        <h1>отправка</h1>
+
+        <textarea class="form-control" rows="10">{{ message.join('\n') }}</textarea>
+
+        <input type="text" class="form-control" v-model="textMessage" @keyup.enter="sendMessage">
+
     </div>
     </template>
 
@@ -10,15 +15,24 @@
 
         data() {
           return {
-            orderId: 1
+            message: [],
+            textMessage: ''
           };
         },
         mounted() {
-          Echo.private(`orders.${this.orderId}`)
-        .listen('orderupdate', (e) => {
-            console.log(e.order);
+        window.Echo.private('chat')
+          .listen('Message', ({message}) => {
+            this.messages.push(message)
+            console.log(message);
         });
+      },
+      methods: {
+        sendMessage(){
+          axios.post('/messages',{ body: this.textMessage })
+          this.message.push(this.textMessage)
+          this.textMessage = ''
         }
+      }
     }
 
 </script>
