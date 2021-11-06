@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-//use App\Events\Message;
+use App\Events\Message;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +19,16 @@ use Illuminate\Http\Request;
 //    return view('welcome');
 //});
 
+
+//Route::post('/messages', [MainController::class, 'EnterOk2']);
+
+
 Route::post('/messages', function(Request $request) {
-    App\Events\Message::dispatch($request->input('body'));
+    Message::dispatch($request->input('body'));
+    //return $request->input('body');
 });
+//Route::post('/messages', 'index2');
+
 
 Route::view('/', 'index');
 

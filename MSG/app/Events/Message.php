@@ -15,6 +15,8 @@ class Message implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+
+
     /**
      * Create a new event instance.
      *
