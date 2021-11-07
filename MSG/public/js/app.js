@@ -2095,19 +2095,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     channel: function channel() {
-      return window.Echo["private"]('room.' + this.room_id);
+      return window.Echo.join('room.' + this.room_id);
     }
   },
   mounted: function mounted() {
     var _this = this;
 
-    this.channel.listen('PrivateChat', function (_ref) {
+    this.channel.here(function (users) {
+      console.log(users);
+    }).joining(function (user) {
+      console.log(user.name);
+    }).leaving(function (user) {
+      console.log(user.name);
+    }).error(function (error) {
+      console.error(error);
+    }).listen('PresenceChat', function (_ref) {
       var data = _ref.data;
 
       _this.message.push(data.body);
 
       console.log(data);
-    });
+    }); ///  .listen('PrivateChat', ({data}) => {
+    //      this.message.push(data.body)
+    //      console.log(data)
+    // });
+
     this.channel.listenForWhisper('typing', function (e) {
       _this.isActive = e;
       if (_this.tTimer) clearTimeout(_this.tTimer);
@@ -2128,7 +2140,6 @@ __webpack_require__.r(__webpack_exports__);
       //))
       axios.post('/messages', {
         body: this.textMessage,
-        user: 1,
         room_id: this.room_id
       }).then(function (response) {//console.log(response.data);
       });

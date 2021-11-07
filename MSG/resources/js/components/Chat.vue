@@ -31,16 +31,34 @@
         },
         computed:{
           channel(){
-            return window.Echo.private('room.' + this.room_id)
+            return window.Echo.join('room.' + this.room_id)
           }
         },
         mounted() {
 
         this.channel
-          .listen('PrivateChat', ({data}) => {
-            this.message.push(data.body)
-            console.log(data)
-       });
+            .here((users) => {
+                console.log(users);
+            })
+            .joining((user) => {
+                console.log(user.name);
+            })
+            .leaving((user) => {
+                console.log(user.name);
+            })
+            .error((error) => {
+                console.error(error);
+            })
+            .listen('PresenceChat', ({data}) => {
+              this.message.push(data.body)
+              console.log(data)
+            });
+
+
+      ///  .listen('PrivateChat', ({data}) => {
+      //      this.message.push(data.body)
+      //      console.log(data)
+      // });
        this.channel
        .listenForWhisper('typing', (e) => {
          this.isActive = e;
@@ -67,7 +85,7 @@
               //this.oldChat(response.data[0].id)
             //))
 
-          axios.post('/messages',{ body: this.textMessage, user: 1, room_id: this.room_id })
+          axios.post('/messages',{ body: this.textMessage, room_id: this.room_id })
           .then(response => {
 
             //console.log(response.data);

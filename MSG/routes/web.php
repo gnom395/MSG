@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use App\Events\PrivateChat;
+use App\Events\PresenceChat;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -25,15 +25,15 @@ use Illuminate\Http\Request;
 
 Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));
-    PrivateChat::dispatch($request->all());
+    PresenceChat::dispatch($request->all());
     //return $request->input('body');
-});
+})->middleware('auth');
 //Route::post('/messages', 'index2');
 
 
-Route::view('/', 'index');
+Route::view('/', 'index')->middleware('auth');
 
-//Route::get('/', [MainController::class, 'EnterOk']);
+Route::get('/2', [MainController::class, 'EnterOk']);
 
 Auth::routes();
 
