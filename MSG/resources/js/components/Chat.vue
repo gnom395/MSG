@@ -5,10 +5,10 @@
 
         <textarea class="form-control" rows="10">{{ this.message.join('\n') }}</textarea>
 
-        <input type="text" class="form-control" name="textMessage" v-model="textMessage" @keyup.enter="sendMessage">
+        <input type="text" class="form-control" name="textMessage" v-model="textMessage" @keyup.enter="sendMessage" @keydown="action">
         <span v-if="isActive"> набирает текст</span>
 
- @keydown="action"
+
     </div>
     </template>
 
@@ -24,7 +24,8 @@
             isActive: false,
             dat: '',
             name: 'Vasy',
-            room_id: 1
+            room_id: 1,
+            tTimer: false
           };
         },
         computed:{
@@ -36,13 +37,19 @@
 
         this.channel
           .listen('PrivateChat', ({data}) => {
-            this.message.push(data)
+            this.message.push(data.body)
             console.log(data)
        });
        this.channel
        .listenForWhisper('typing', (e) => {
          this.isActive = e;
-         console.log(e)
+
+         if(this.tTimer) clearTimeout(this.tTimer)
+
+         this.tTimer = setTimeout(() => {
+           this.isActive = false
+         },2000);
+         //console.log(e)
        });
 
        //setTimeout(() => {
@@ -70,7 +77,7 @@
           this.textMessage = ''
         },
         action(){
-          window.Echo.channel('chat')
+          this.channel
               .whisper('typing',{
                 name: this.name
               })

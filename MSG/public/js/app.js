@@ -2088,7 +2088,8 @@ __webpack_require__.r(__webpack_exports__);
       isActive: false,
       dat: '',
       name: 'Vasy',
-      room_id: 1
+      room_id: 1,
+      tTimer: false
     };
   },
   computed: {
@@ -2102,13 +2103,16 @@ __webpack_require__.r(__webpack_exports__);
     this.channel.listen('PrivateChat', function (_ref) {
       var data = _ref.data;
 
-      _this.message.push(data);
+      _this.message.push(data.body);
 
       console.log(data);
     });
     this.channel.listenForWhisper('typing', function (e) {
       _this.isActive = e;
-      console.log(e);
+      if (_this.tTimer) clearTimeout(_this.tTimer);
+      _this.tTimer = setTimeout(function () {
+        _this.isActive = false;
+      }, 2000); //console.log(e)
     }); //setTimeout(() => {
     //   this.isActive = false;
     // }, 2000);
@@ -2131,7 +2135,7 @@ __webpack_require__.r(__webpack_exports__);
       this.textMessage = '';
     },
     action: function action() {
-      window.Echo.channel('chat').whisper('typing', {
+      this.channel.whisper('typing', {
         name: this.name
       });
     }
@@ -43807,6 +43811,7 @@ var render = function () {
           }
           return _vm.sendMessage.apply(null, arguments)
         },
+        keydown: _vm.action,
         input: function ($event) {
           if ($event.target.composing) {
             return
@@ -43817,7 +43822,6 @@ var render = function () {
     }),
     _vm._v(" "),
     _vm.isActive ? _c("span", [_vm._v(" набирает текст")]) : _vm._e(),
-    _vm._v('\n\n @keydown="action"\n    '),
   ])
 }
 var staticRenderFns = []
