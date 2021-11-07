@@ -32,5 +32,5 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('room.{room_id}', function ($user, $room_id) {
     //return $room_id === $user->room_id;
-    return true;
+    return $user;
 });

@@ -38,13 +38,13 @@
 
         this.channel
             .here((users) => {
-                console.log(users);
+                console.log('here' + users);
             })
             .joining((user) => {
-                console.log(user.name);
+                console.log('joining' + user.name);
             })
             .leaving((user) => {
-                console.log(user.name);
+                console.log('leaving' + user.name);
             })
             .error((error) => {
                 console.error(error);

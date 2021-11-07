@@ -2103,11 +2103,11 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.channel.here(function (users) {
-      console.log(users);
+      console.log('here' + users);
     }).joining(function (user) {
-      console.log(user.name);
+      console.log('joining' + user.name);
     }).leaving(function (user) {
-      console.log(user.name);
+      console.log('leaving' + user.name);
     }).error(function (error) {
       console.error(error);
     }).listen('PresenceChat', function (_ref) {
