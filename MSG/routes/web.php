@@ -31,10 +31,12 @@ Route::post('/messages', function(Request $request) {
 //Route::post('/messages', 'index2');
 
 
-Route::view('/', 'index')->middleware('auth');
+//Route::view('/', 'index')->middleware('auth');
 
-Route::get('/2', [MainController::class, 'EnterOk']);
+Route::get('/2', [MainController::class, 'EnterOk2']);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/{any}', [MainController::class, 'EnterOk'])->where('any', '.*');

@@ -2080,15 +2080,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Chat",
+  props: ['user'],
   data: function data() {
     return {
       message: [],
       textMessage: '',
       isActive: false,
       dat: '',
-      name: 'Vasy',
       room_id: 1,
       tTimer: false
     };
@@ -2148,7 +2149,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     action: function action() {
       this.channel.whisper('typing', {
-        name: this.name
+        name: this.user.name
       });
     }
   }
@@ -43833,7 +43834,10 @@ var render = function () {
       },
     }),
     _vm._v(" "),
-    _vm.isActive ? _c("span", [_vm._v(" набирает текст")]) : _vm._e(),
+    _vm.isActive
+      ? _c("span", [_vm._v(_vm._s(_vm.isActive.name) + " набирает текст")])
+      : _vm._e(),
+    _vm._v("\n\n" + _vm._s(this.user.name) + "\n\n    "),
   ])
 }
 var staticRenderFns = []

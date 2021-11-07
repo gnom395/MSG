@@ -4,7 +4,9 @@
 
   <div class="container">
 
-<Chat></Chat>
+<Chat :user="{{$user}}"></Chat>
+
+{{ $user }}
   </div>
 
 @endsection
