@@ -2077,41 +2077,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Chat",
   data: function data() {
     return {
       message: [],
       textMessage: '',
-      isActive: false
+      isActive: false,
+      dat: '',
+      name: 'Vasy',
+      room_id: 1
     };
+  },
+  computed: {
+    channel: function channel() {
+      return window.Echo["private"]('room.' + this.room_id);
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
-    window.Echo.channel('chat').listen('Message', function (_ref) {
-      var message = _ref.message;
+    this.channel.listen('PrivateChat', function (_ref) {
+      var data = _ref.data;
 
-      _this.message.push(message); //console.log(message)
+      _this.message.push(data);
 
-    }).listenForWhisper('typing', function (e) {
-      _this.isActive = e;
+      console.log(data);
     });
-    setTimeout(function () {
-      _this.isActive = false;
-    }, 2000);
+    this.channel.listenForWhisper('typing', function (e) {
+      _this.isActive = e;
+      console.log(e);
+    }); //setTimeout(() => {
+    //   this.isActive = false;
+    // }, 2000);
   },
   methods: {
     sendMessage: function sendMessage() {
+      //  axios.get('/messages?body=' + this.textMessage)
+      //  .then(response => (
+      //  this.chattext = response.data
+      //  console.log('aaa')
+      //this.oldChat(response.data[0].id)
+      //))
       axios.post('/messages', {
-        body: this.textMessage
+        body: this.textMessage,
+        user: 1,
+        room_id: this.room_id
+      }).then(function (response) {//console.log(response.data);
       });
       this.message.push(this.textMessage);
       this.textMessage = '';
     },
     action: function action() {
       window.Echo.channel('chat').whisper('typing', {
-        name: 'Вася'
+        name: this.name
       });
     }
   }
@@ -2192,22 +2213,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-// import Echo from 'laravel-echo';
-// window.Pusher = require('pusher-js');
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "123456",
+  cluster: "mt1",
   wsHost: window.location.hostname,
   wsPort: 6001,
+  disableStats: true,
   forceTLS: false
 });
 
@@ -43765,7 +43780,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("h1", [_vm._v("отправка")]),
-    _vm._v(" "),
+    _vm._v("\n" + _vm._s(this.dat) + "\n\n        "),
     _c("textarea", { staticClass: "form-control", attrs: { rows: "10" } }, [
       _vm._v(_vm._s(this.message.join("\n"))),
     ]),
@@ -43780,7 +43795,7 @@ var render = function () {
         },
       ],
       staticClass: "form-control",
-      attrs: { type: "text" },
+      attrs: { type: "text", name: "textMessage" },
       domProps: { value: _vm.textMessage },
       on: {
         keyup: function ($event) {
@@ -43792,7 +43807,6 @@ var render = function () {
           }
           return _vm.sendMessage.apply(null, arguments)
         },
-        keydown: _vm.action,
         input: function ($event) {
           if ($event.target.composing) {
             return
@@ -43802,9 +43816,8 @@ var render = function () {
       },
     }),
     _vm._v(" "),
-    _vm.isActive
-      ? _c("span", [_vm._v(_vm._s(_vm.isActive.name) + " набирает текст")])
-      : _vm._e(),
+    _vm.isActive ? _c("span", [_vm._v(" набирает текст")]) : _vm._e(),
+    _vm._v('\n\n @keydown="action"\n    '),
   ])
 }
 var staticRenderFns = []

@@ -5,10 +5,10 @@
 
         <textarea class="form-control" rows="10">{{ this.message.join('\n') }}</textarea>
 
-        <input type="text" class="form-control" name="textMessage" v-model="textMessage" @keyup.enter="sendMessage" @keydown="action">
-        <span v-if="isActive">{{ isActive.name }} набирает текст</span>
+        <input type="text" class="form-control" name="textMessage" v-model="textMessage" @keyup.enter="sendMessage">
+        <span v-if="isActive"> набирает текст</span>
 
-
+ @keydown="action"
     </div>
     </template>
 
@@ -22,25 +22,28 @@
             message: [],
             textMessage: '',
             isActive: false,
-            dat: ''
+            dat: '',
+            name: 'Vasy',
+            room_id: 1
           };
         },
         computed:{
           channel(){
-            return window.Echo.channel('chat')
+            return window.Echo.private('room.' + this.room_id)
           }
         },
         mounted() {
 
         this.channel
-          .listen('Message', ({message}) => {
-            this.message.push(message)
-            console.log(message)
+          .listen('PrivateChat', ({data}) => {
+            this.message.push(data)
+            console.log(data)
        });
-        //this.channel
-      /// .listenForWhisper('typing', (e) => {
+       this.channel
+       .listenForWhisper('typing', (e) => {
          this.isActive = e;
-    //   });
+         console.log(e)
+       });
 
        //setTimeout(() => {
       //   this.isActive = false;
@@ -56,10 +59,10 @@
               //this.oldChat(response.data[0].id)
             //))
 
-          axios.post('/messages',{ body: this.textMessage })
+          axios.post('/messages',{ body: this.textMessage, user: 1, room_id: this.room_id })
           .then(response => {
 
-            console.log(response.data);
+            //console.log(response.data);
 
 
             });
@@ -67,9 +70,9 @@
           this.textMessage = ''
         },
         action(){
-            this.channel
+          window.Echo.channel('chat')
               .whisper('typing',{
-                name: 'Вася'
+                name: this.name
               })
         }
       }

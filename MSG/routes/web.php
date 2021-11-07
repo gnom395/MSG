@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use App\Events\Message;
+use App\Events\PrivateChat;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,8 @@ use Illuminate\Http\Request;
 
 
 Route::post('/messages', function(Request $request) {
-    Message::dispatch($request->input('body'));
+    //PrivateChat::dispatch($request->input('body'));
+    PrivateChat::dispatch($request->all());
     //return $request->input('body');
 });
 //Route::post('/messages', 'index2');

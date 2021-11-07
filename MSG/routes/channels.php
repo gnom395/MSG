@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-use App\Models\Order;
+//use App\Models\Order;
 
 
 /*
@@ -30,6 +30,7 @@ use App\Models\Order;
 //});
 //Broadcast::channel('chat', OrderChannel::class);
 
-//Broadcast::channel('chat', function ($user) {
-//    return $user;
-//});
+Broadcast::channel('room.{room_id}', function ($user, $room_id) {
+    //return $room_id === $user->room_id;
+    return true;
+});
