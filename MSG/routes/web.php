@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\getUsersController;
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
 /*
@@ -22,21 +23,28 @@ use Illuminate\Http\Request;
 
 //Route::post('/messages', [MainController::class, 'EnterOk2']);
 
+Route::get('/getusers', [getUsersController::class, 'getUsers']);
+
+Route::get('/', [MainController::class, 'EnterToChat'])->name('enter');
+
 
 Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));
     PresenceChat::dispatch($request->all());
     //return $request->input('body');
-})->middleware('auth');
+});
 //Route::post('/messages', 'index2');
 
 
 //Route::view('/', 'index')->middleware('auth');
 
-Route::get('/2', [MainController::class, 'EnterOk2']);
+Route::post('/editname', [MainController::class, 'EditName'])->name('editname');
+
+Route::get('/changename', [MainController::class, 'ChangeName'])->name('changename');
 
 Auth::routes();
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/{any}', [MainController::class, 'EnterOk'])->where('any', '.*');
+Route::get('/{any}', [MainController::class, 'EnterToRouter'])->where('any', '.*');

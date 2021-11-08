@@ -1,12 +1,24 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <title>Сообщения</title>
+    </head>
+    <body>
 
-@section('content')
+      <div id="app">
 
-  <div class="container">
+        <v-header></v-header>
+        <br>
 
-<Chat :user="{{$user}}"></Chat>
+        <div class="container">
+          <router-view :user="{{ $user }}"></router-view>
+        </div>
+      </div>
 
-{{ $user }}
-  </div>
+      <script src="/js/app.js"></script>
 
-@endsection
+    </body>
+</html>
