@@ -53,8 +53,9 @@
   </div>
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
 
-
   {{ this.usertext }}
+  <hr>
+
 <hr>
 
 
@@ -92,6 +93,7 @@
 
   mounted() {
     this.loading = true
+
 
 /// слушаем ответ от чата
     this.$root.$on('hideUsers', () => {

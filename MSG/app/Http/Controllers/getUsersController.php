@@ -30,7 +30,7 @@ class getUsersController extends Controller
           ->update(['dateOnline' => NOW()]);
 
         $grcount = "";
-        $successAr['success'] = array();
+        $successAr = array();
         $dateminus = date('Y-m-d H:i:s', strtotime('-1 minutes'));
 
 

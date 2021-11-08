@@ -16,21 +16,23 @@ class MainController extends Controller
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function EnterToChat(Request $request) {
 
+      $ip = "192.168.88.16";
+      //$ip = $request->ip();
       /// проверяем пользователя зарегестрирован он или нет
       if(is_null(Auth::user())) {
         //return view('edituser', ['user' => Auth::user() ]);
 
-        $ip_parts = explode (".", $request->ip());
+        $ip_parts = explode (".", $ip);
         $ip_node = $ip_parts[0].".".$ip_parts[1];
 
         if($ip_node != '192.168') {
           /// выкидваем если не из нашей сети
-          return 'ip error '. $request->ip();
+          return 'ip error '. $ip;
           exit;
         }
           /// если за нашей сети
 
-          $User = User::where('ip', $request->ip())->first();
+          $User = User::where('ip', $ip)->first();
 
             if(is_null($User)) {
               /// если нет в базе отправляем на регистрацию
@@ -55,18 +57,21 @@ class MainController extends Controller
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function EditName(Request $request) {
 
-        $Usermy = User::where('ip', $request->ip())->first();
+      $ip = "192.168.88.16";
+      //$ip = $request->ip();
+
+        $Usermy = User::where('ip', $ip)->first();
 
         if(is_null($Usermy)) {
           $user = new User;
           $user->name = $request->name;
-          $user->ip = $request->ip();
+          $user->ip = $ip;
           $user->save();
 
           return '1';
 
         } else {
-          User::where('ip', $request->ip())
+          User::where('ip', $ip)
             ->update(['name' => $request->name]);
             return '1';
         }
