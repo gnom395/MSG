@@ -80,16 +80,26 @@
         listfile: [],
         filesend: '',
         attachfile: '',
-        attachfiletmp: ''
+        attachfiletmp: '',
+        room_id: null,
+        channelid: null
+
       };
     },
+  //  beforeDestroy() {
+  //    this.$eventBus.$off('roomIdToSubmit');
+    //},
     mounted() {
 
-
-
+      this.$root.$on('channelid', (channelid) => {
+          this.channelid = channelid
+          alert(channelid)
+      })
       //console.log(this.$route.params.id);
         },
    methods : {
+
+
 
      sendfiles(get){
        this.filesend = get
@@ -175,10 +185,13 @@
 
           try {
 
-            axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug, attach: this.attachfile })
+            axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug, attach: this.attachfile, room_id: this.channelid })
             .then(response => {
                 //this.message = '';
 
+                //this.message.push(response.message)
+
+                alert(this.channelid)
                 //this.$root.$emit('ChatInPost');
 
                 // очищаем вложения

@@ -19,6 +19,18 @@ const routes = [
     {
         path: "/userwin",
         component: UsersWin
+    },
+    {
+        path: "/:ug/:id",
+        component: Index,
+    },
+    {
+        path: "/user/:id/:idmes",
+        component: Index
+    },
+    {
+        path: "/chat",
+        component: Index
     }
 
 ];

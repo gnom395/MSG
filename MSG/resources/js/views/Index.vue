@@ -4,21 +4,26 @@
   <div class="row">
     <div class="col-md-4 d-none d-md-block">
 
-      <UsersWin class="userwin" :user="this.user"></UsersWin>
+      <UsersWin
+      class="userwin"
+      :usermy="this.user"
+      ></UsersWin>
 
     </div>
     <div class="col">
 
-      <ChatWin :chattextin="chattext" ref="scrollToDownWin"></ChatWin>
+      <ChatWin
+      :chattextin="chattext"
+      :usermy="this.user"
+      ref="scrollToDownWin"
+      ></ChatWin>
 
       <FormSubmit v-if="this.$route.params.id"
       :user="this.user"
-      @callNewMessPrint="NewMessPrint"
-      @clearTimerChat="clearTimerChat"
-      @startTimerChat="startTimerChat"
       ></FormSubmit>
     </div>
   </div>
+
 
 
 <WinFiles :idfiles="idfiles"></WinFiles>
@@ -55,13 +60,6 @@
 
 
 
-        <!--  <button @click="scrollToDown">scroll to me</button> -->
-
-
-
-
-
-
 </div>
 
 
@@ -88,7 +86,7 @@ import ChatWin from '../components/ChatWin';
     return {
        seen: true,
       chattext: '',
-      id: null,
+    //id: null,
       dataread: null,
       sf: null,
     //  loadingchat: true,
@@ -99,8 +97,9 @@ import ChatWin from '../components/ChatWin';
       group: null,
       showchat: false,
       idfiles: '',
-      timestamp: null,
-      polling: ''
+      //timestamp: null,
+      //polling: '',
+      chId: ''
 
 
       //obj: this.$route.params.id,
@@ -108,6 +107,9 @@ import ChatWin from '../components/ChatWin';
     };
   },
   methods : {
+
+
+
 
     //startTimerChat(){
     //  this.polling = setInterval(() => {
@@ -133,9 +135,14 @@ import ChatWin from '../components/ChatWin';
       //this.timestamp = dateTime;
   //  },
 
+/// получаем id канала привет
+
+
     scrollToDown() {
       /// вызываем функцию из дочернего компонента
       this.$refs.scrollToDownWin.scrollToDown()
+
+      //this.$refs.webchatconn.webchatconn()
 
     //  this.$root.$emit('scrollToDownWin')
 
@@ -163,7 +170,7 @@ import ChatWin from '../components/ChatWin';
 
       //alert('/getmessage?ug' + this.$route.params.ug + '&to=' + this.$route.params.id);
         axios
-          .get('/getmessage?ug' + this.$route.params.ug + '&to=' + this.$route.params.id)
+          .get('/getmessages?ug' + this.$route.params.ug + '&to=' + this.$route.params.id)
           .then(response => (
             this.chattext = response.data
             //this.oldChat(response.data[0].id)
@@ -186,7 +193,10 @@ import ChatWin from '../components/ChatWin';
       }
     }
   },
+
+
     mounted() {
+
 
       //if(typeof(this.$route.params.id) !== 'undefined' ) {
       //  this.loadUserInfo();
@@ -228,9 +238,9 @@ import ChatWin from '../components/ChatWin';
 
 
     },
-    beforeDestroy () {
-	     clearInterval(this.polling)
-    }
+  //  beforeDestroy () {
+	//     clearInterval(this.polling)
+  //  }
 
   }
 </script>

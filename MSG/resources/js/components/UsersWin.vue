@@ -21,6 +21,7 @@
 
 <div v-bind:style="styleObject">
 
+
   <div class="list-group">
   <div v-for="showe in usertext" @click="handleClick(showe.id,showe.name,showe.online,showe.last,showe.groups_id)">
 
@@ -53,7 +54,7 @@
   </div>
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
 
-  {{ this.usertext }}
+
   <hr>
 
 <hr>
@@ -79,7 +80,7 @@
       useridget: parseInt(this.$route.params.id),
       groupidget: this.$route.params.ug,
       loading: true,
-      room_id: 1000,
+      room_id: 999,
       data: '',
 
       styleObject: {
@@ -88,7 +89,7 @@
       }
     };
   },
-      props: ['user'],
+      props: ['usermy'],
 
 
   mounted() {
@@ -108,21 +109,56 @@
 
     this.channel
         .here((users) => {
-            console.log('here' + users);
+
+          //const usersjson = JSON.stringify(users);
+
+          //console.log('here' + usersjson);
+          /// ставим статус онлайн все кто в сети
+          for (var i = 0; i < users.length; i++){
+
+              console.log('user here' + users[i].id);
+
+              for (var y = 0; y < this.usertext.length; y++){
+                if (users[i].id == this.usertext[y].id ){
+                  this.usertext[y].online = 1;
+                  console.log('set online ' + this.usertext[y].id);
+                  break;
+                }
+              }
+
+          }
+
+
         })
+        /// пользователь зашел в чат
         .joining((user) => {
 
-
-          const user2 = usertext.filter(item => item.id == 12);
-
-          alert(user2.name); // Вася
+          /// ставим статус онлайн
+          for (var i = 0; i < this.usertext.length; i++){
+            if (user.id == this.usertext[i].id ){
+              this.usertext[i].online = 1;
+              //console.log(this.usertext[i].online);
+              break;
+            }
+          }
 
             //this.usertext[user.id].online = 1
             //this.$set(this.usertext, 'online', 1)
             console.log(user.name + ' ' + user.id + ' в сети');
         })
+        /// пользователь вышел из чата
         .leaving((user) => {
-            console.log(user.name + 'не в сети');
+
+          /// ставим статус офлайн
+          for (var i = 0; i < this.usertext.length; i++){
+            if (user.id == this.usertext[i].id ){
+              this.usertext[i].online = 0;
+              //console.log(this.usertext[i].online);
+              break;
+            }
+          }
+
+            console.log(user.name + ' не в сети');
         })
         .error((error) => {
             console.error(error);
@@ -142,7 +178,7 @@
 
     getusers(){
       axios
-      .get('/getusers?myid='+this.user.id)
+      .get('/getusers?myid='+this.usermy.id)
       .then(response => (
         this.usertext = response.data,
         this.loading = false
@@ -168,6 +204,11 @@
     },
     handleClick (userid,username,useronline,userlast,group) {
       this.$root.$emit('Chat')
+
+      /// делаем id часного канала
+      this.$root.$emit('webchatconn',userid)
+
+      
       //this.$root.$emit('CleanChat')
       this.$root.$emit('NameUser',userid,username,useronline,userlast,group)
       //this.$root.$emit('ScrollDown')

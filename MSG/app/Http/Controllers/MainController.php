@@ -16,8 +16,8 @@ class MainController extends Controller
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function EnterToChat(Request $request) {
 
-      $ip = "192.168.88.16";
-      //$ip = $request->ip();
+      //$ip = "192.168.88.16";
+      $ip = $request->ip();
       /// проверяем пользователя зарегестрирован он или нет
       if(is_null(Auth::user())) {
         //return view('edituser', ['user' => Auth::user() ]);
@@ -57,8 +57,8 @@ class MainController extends Controller
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function EditName(Request $request) {
 
-      $ip = "192.168.88.16";
-      //$ip = $request->ip();
+      //$ip = "192.168.88.16";
+      $ip = $request->ip();
 
         $Usermy = User::where('ip', $ip)->first();
 

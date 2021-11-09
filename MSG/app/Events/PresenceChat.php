@@ -32,6 +32,6 @@ class PresenceChat implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('room.1'); // . $this->data['room_id']
+        return new PresenceChannel('room.' . $this->data['room_id']); // . $this->data['room_id']
     }
 }

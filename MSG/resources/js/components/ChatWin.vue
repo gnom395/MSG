@@ -45,7 +45,7 @@
 
 
 </div>
-
+id канала: {{ this.channelall }}
 </div>
 
 
@@ -57,25 +57,93 @@
 
     data() {
       return {
-      //chattextin: ''
+        channelall: null,
+        oldchannel: null
     }},
 
-      props: ['chattextin'],
+    props: ['chattextin','usermy'],
 
-  methods : {
-    scrollToDown() {
-      //alert('ddd')
-      const objDiv = this.$refs.cha
-      objDiv.scrollTop = objDiv.scrollHeight
+  //  computed:{
+  //    channel(){
+  //      return window.Echo.join('room.' + this.usermy.id)
+  //    }
+  //  },
+    methods : {
+
+
+      webchatconn(userid) {
+
+        if(userid < this.usermy.id) {
+          this.channelall = userid +'.'+ this.usermy.id
+          //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
+          /// запускаем на родителе
+          //this.$parent.$options.methods.chid(this.channelall)
+
+        } else {
+          this.channelall = this.usermy.id + '.' + userid
+          //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
+          /// запускаем на родителе
+          //this.$parent.$options.methods.chid(this.channelall)
+        }
+
+        //console.log(this.channelall);
+
+        // если есть открытые каналы закрываем
+        if(this.oldchannel !== null) {
+          window.Echo.leave('room.' + this.oldchannel)
+          //alert(this.oldchannel)
+        }
+
+        this.oldchannel = this.channelall
+
+
+        window.Echo.join('room.' + this.channelall)
+      //  this.channel
+            .here((users) => {
+                //  console.log(users);
+            })
+            /// пользователь зашел в чат
+            .joining((user) => {
+              console.log(user.name + ' ' + user.id + ' в сети');
+            })        /// пользователь вышел из чата
+            .leaving((user) => {
+
+              console.log(user.name + ' не в сети');
+            })
+            .error((error) => {
+              console.error(error);
+            })
+            .listen('PresenceChat', ({data}) => {
+              this.chattextin.push(data)
+
+
+              setTimeout(() => this.scrollToDown(), 1000);
+              //this.$eventBus.$emit('dataToChat',data)
+              console.log(data)
+            });
+
+      },
+      scrollToDown() {
+        //alert('ddd')
+        const objDiv = this.$refs.cha
+        objDiv.scrollTop = objDiv.scrollHeight
+      },
+      showModalFile(idfiles) {
+        this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
+        this.idfiles = idfiles
+      },
     },
-    showModalFile(idfiles) {
-      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
-      this.idfiles = idfiles
-    },
-  },
+
+  mounted() {
+    /// слушаем из userwin
+        this.$root.$on('webchatconn', (userid) => {
+            this.webchatconn(userid)
+        })
 
 
   }
+}
+
 </script>
 
 <style scoped>

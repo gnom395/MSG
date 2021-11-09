@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+import Vue from 'vue'
 
 import BootstrapVue from 'bootstrap-vue' //Importing
 Vue.use(BootstrapVue) // Telling Vue to use this in whole application
@@ -30,7 +31,9 @@ Vue.component('v-header', require('./components/Header.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
- import router from "./router"
+//Vue.prototype.$eventBus = new Vue();
+
+import router from "./router"
 
 const app = new Vue({
     el: '#app',

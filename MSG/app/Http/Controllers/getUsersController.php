@@ -36,11 +36,12 @@ class getUsersController extends Controller
 
         foreach($Users_online as $rowMes) {
 
-          if($rowMes->online < $dateminus) {
-            $online = 0;
-          } else{
-          $online = 1;
-          }
+          $online = 0;
+          //if($rowMes->online < $dateminus) {
+          //  $online = 0;
+          //} else{
+          //$online = 1;
+          //}
 
             $successAr[] = [
               'id' => $rowMes->FromUser,
@@ -52,11 +53,12 @@ class getUsersController extends Controller
 
         foreach($Users as $row) {
 
-          if($row->dateOnline < $dateminus) {
-            $online = 0;
-          } else{
-            $online = 1;
-          }
+          $online = 0;
+          //if($row->dateOnline < $dateminus) {
+          //  $online = 0;
+          //} else{
+          //  $online = 1;
+          //}
 
           if($grcount != $row->groups_id) {
             $successAr[] = [
