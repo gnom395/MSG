@@ -8,7 +8,7 @@
             <div v-for="messdat in chattextin" class="currency">
 
 
-              <div class="container sendmes" v-if="messdat.mymes === 1">
+              <div class="container sendmes" v-if="messdat.from === myid">
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
 
@@ -45,6 +45,7 @@
 
 
 </div>
+
 id канала: {{ this.channelall }}
 </div>
 
@@ -58,7 +59,9 @@ id канала: {{ this.channelall }}
     data() {
       return {
         channelall: null,
-        oldchannel: null
+        oldchannel: null,
+        messPush: null,
+        myid: parseInt(this.usermy.id)
     }},
 
     props: ['chattextin','usermy'],
@@ -76,14 +79,16 @@ id канала: {{ this.channelall }}
         if(userid < this.usermy.id) {
           this.channelall = userid +'.'+ this.usermy.id
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
-          /// запускаем на родителе
           //this.$parent.$options.methods.chid(this.channelall)
+          // отправляем id канала на FormSubmit
+          this.$root.$emit('idchannel',this.channelall)
 
         } else {
           this.channelall = this.usermy.id + '.' + userid
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
-          /// запускаем на родителе
           //this.$parent.$options.methods.chid(this.channelall)
+          // отправляем id канала на FormSubmit
+          this.$root.$emit('idchannel',this.channelall)
         }
 
         //console.log(this.channelall);
@@ -114,6 +119,11 @@ id канала: {{ this.channelall }}
               console.error(error);
             })
             .listen('PresenceChat', ({data}) => {
+//[ { "id": 1498, "to": 12, "from": 13, "message": "454", "attach": "0", "read": 0, "datesend": "09:00 10.11.2021" },
+//    { "message": "555", "to": "12", "ug": "user", "attach": null, "room_id": "12.13" } ]
+
+            this.messPush
+
               this.chattextin.push(data)
 
 
@@ -135,12 +145,10 @@ id канала: {{ this.channelall }}
     },
 
   mounted() {
-    /// слушаем из userwin
-        this.$root.$on('webchatconn', (userid) => {
-            this.webchatconn(userid)
-        })
-
-
+    this.$root.$on('webchatconn', (userid) => {
+      //alert('chatwin')
+        this.webchatconn(userid);
+    })
   }
 }
 

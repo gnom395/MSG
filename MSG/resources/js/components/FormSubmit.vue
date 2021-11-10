@@ -51,7 +51,7 @@
 <ListFile @sendfiles="sendfiles"></ListFile>
 
 
-<!--{{this.filesend}}-->
+{{this.channelid}}
 
 </div>
 </template>
@@ -67,7 +67,8 @@
         Spin
       },
 
-      props: ['myid','myip','myname'],
+      //props: ['myid','myip','myname'],
+      props: ['usermy'],
 
     data() {
       return {
@@ -79,7 +80,7 @@
         usertext: null,
         listfile: [],
         filesend: '',
-        attachfile: '',
+        attachfile: 0,
         attachfiletmp: '',
         room_id: null,
         channelid: null
@@ -91,10 +92,15 @@
     //},
     mounted() {
 
-      this.$root.$on('channelid', (channelid) => {
-          this.channelid = channelid
-          alert(channelid)
+      /// получаем id канала из chatwin
+      this.$root.$on('idchannel', (idchannel) => {
+          this.channelid = idchannel
       })
+
+      //this.$root.$on('channelid', (channelid) => {
+      //    this.channelid = channelid
+      //    alert(channelid)
+    //  })
       //console.log(this.$route.params.id);
         },
    methods : {
@@ -133,7 +139,7 @@
       //axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug })
        let formData = new FormData();
        formData.append( 'file', this.file );
-       formData.append( 'fromid', this.myid );
+       formData.append( 'fromid', this.usermy.id );
        formData.append( 'attach', this.filesend );
        axios.post( '/postfile',
         formData,
@@ -185,23 +191,19 @@
 
           try {
 
-            axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug, attach: this.attachfile, room_id: this.channelid })
+            axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, room_id: this.channelid })
             .then(response => {
                 //this.message = '';
 
                 //this.message.push(response.message)
 
-                alert(this.channelid)
+                //alert(this.channelid)
                 //this.$root.$emit('ChatInPost');
 
                 // очищаем вложения
                 this.filesend = ''
-                this.attachfile = ''
+                this.attachfile = 0
                 this.$root.$emit('ListFileClean')
-
-                //// запускаем таймер после остановки
-                this.$emit('startTimerChat')
-
 
 
               //  .catch(error => console.log(error))

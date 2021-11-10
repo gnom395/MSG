@@ -7,6 +7,7 @@
       <UsersWin
       class="userwin"
       :usermy="this.user"
+      ref="hideUserChatOn"
       ></UsersWin>
 
     </div>
@@ -19,7 +20,7 @@
       ></ChatWin>
 
       <FormSubmit v-if="this.$route.params.id"
-      :user="this.user"
+      :usermy="this.user"
       ></FormSubmit>
     </div>
   </div>
@@ -135,8 +136,6 @@ import ChatWin from '../components/ChatWin';
       //this.timestamp = dateTime;
   //  },
 
-/// получаем id канала привет
-
 
     scrollToDown() {
       /// вызываем функцию из дочернего компонента
@@ -153,24 +152,24 @@ import ChatWin from '../components/ChatWin';
     //  }
     },
 
-    oldChat(res){
+    //oldChat(res){
 
-      if(this.sf != res) {
+    //  if(this.sf != res) {
         /// если id поменялся
-        this.scrollToDown()
-        alert(this.sf +' '+ res)
-      }
+      //  this.scrollToDown()
+      //  alert(this.sf +' '+ res)
+      //}
 
-      this.sf = res
+      //this.sf = res
 
-    },
+    //},
     getMessage(getparam){
 
       if(typeof(this.$route.params.id) !== 'undefined' ) {
 
       //alert('/getmessage?ug' + this.$route.params.ug + '&to=' + this.$route.params.id);
         axios
-          .get('/getmessages?ug' + this.$route.params.ug + '&to=' + this.$route.params.id)
+          .get('/getmessages?ug=' + this.$route.params.ug + '&to=' + this.$route.params.id)
           .then(response => (
             this.chattext = response.data
             //this.oldChat(response.data[0].id)
@@ -180,7 +179,9 @@ import ChatWin from '../components/ChatWin';
           .then(response => (
           //  if(response.data.status){
                 this.showchat = true,
-                this.$root.$emit('hideUsers')
+                //this.$root.$emit('hideUsers')
+                this.$refs.hideUserChatOn.hideUserChatOn()
+
           //  }
         ));
       }
@@ -203,25 +204,25 @@ import ChatWin from '../components/ChatWin';
       //}
 
 
-      this.$root.$on('Chat', () => {
+      this.$root.$on('getMessInChat', () => {
           this.getMessage(true)
           //this.loadUserInfo();
-          this.usertext = '',
-          this.showchat = false
+      //    this.usertext = '',
+      //    this.showchat = false
       }),
-      this.$root.$on('ChatInPost', () => {
-          this.getMessage(true);
+    //  this.$root.$on('ChatInPost', () => {
+      //    this.getMessage(true);
 
         // window.setTimeout(() => {
         //          this.scrollToDown()
         //  }, 1000)
           //this.usertext = '',
           //this.showchat = false
-      }),
+      //}),
     //  this.$root.$on('CleanChat', () => {
     //      this.cleanChatLoad();
     //  }),
-      this.$root.$on('NameUser', (userid,username,useronline,userlast,group) => {
+      this.$root.$on('NameUserUp', (userid,username,useronline,userlast,group) => {
           this.userid = userid,
           this.username = username,
           this.useronline = useronline,

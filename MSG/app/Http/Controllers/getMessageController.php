@@ -62,11 +62,11 @@ class getMessageController extends Controller
       foreach ($messages as $message) {
   //dd($request->to);
 
-      if($request->to == $message->fromUser){
-        $mymes = 0;
-      } else {
-        $mymes = 1;
-      }
+      //if($request->to == $message->fromUser){
+      //  $mymes = 0;
+      //} else {
+      //  $mymes = 1;
+      //}
 
         $dat = date("H:i d.m.Y", strtotime($message->dateIn));
 
@@ -78,7 +78,7 @@ class getMessageController extends Controller
               'message' => $message->message,
               'attach' => $message->attachFile,
               'read' => $message->readMes,
-              'mymes' => $mymes,
+              //'mymes' => $mymes,
               'datesend' => $dat
               //'read' => $eraParamGet['readMes']
             );

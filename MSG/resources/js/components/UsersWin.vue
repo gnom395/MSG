@@ -97,9 +97,9 @@
 
 
 /// слушаем ответ от чата
-    this.$root.$on('hideUsers', () => {
-        this.hideUserChatOn()
-    })
+    //this.$root.$on('hideUsers', () => {
+    //    this.hideUserChatOn()
+  //})
 
     this.getusers()
 
@@ -201,19 +201,22 @@
     hideUserChatOn() {
           this.styleObject.opacity = '1.0',
           this.styleObject.pointerEvents = 'visible'
+          //alert('v')
     },
     handleClick (userid,username,useronline,userlast,group) {
-      this.$root.$emit('Chat')
+
+      /// загружаем сообщения в чат ChatWin
+      this.$root.$emit('getMessInChat')
 
       /// делаем id часного канала
       this.$root.$emit('webchatconn',userid)
 
-      
       //this.$root.$emit('CleanChat')
-      this.$root.$emit('NameUser',userid,username,useronline,userlast,group)
+      /// отправляем данные о пользователе в index
+      this.$root.$emit('NameUserUp',userid,username,useronline,userlast,group)
       //this.$root.$emit('ScrollDown')
       this.hideUserChatOff()
-      this.useridget = null
+      //this.useridget = null
     },
     handleClickLoad (userid,username,useronline,userlast,group) {
       this.$root.$emit('NameUser',userid,username,useronline,userlast,group)
