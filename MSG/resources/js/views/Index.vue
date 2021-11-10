@@ -1,7 +1,12 @@
 <template>
 <div>
 
-  <div class="row">
+  <div class="row border">
+
+    <div class="col-md-4 d-none d-md-block">22</div>
+    <div class="col">{{this.username}}</div>
+        <div class="w-100"></div>
+
     <div class="col-md-4 d-none d-md-block">
 
       <UsersWin
@@ -11,6 +16,9 @@
       ></UsersWin>
 
     </div>
+
+
+
     <div class="col">
 
       <ChatWin
@@ -26,38 +34,7 @@
   </div>
 
 
-
 <WinFiles :idfiles="idfiles"></WinFiles>
-
-<!--
-        <div class="upname bg-white border">
-
-      <div v-if="this.$route.params.id">
-        <div v-if="this.group">
-          <p class="font-weight-bold">
-            <b-avatar variant="primary" text="Гр" class="my-1"></b-avatar>
-            {{ this.username }} (группа)
-          </p>
-        </div>
-        <div v-else>
-          <p class="font-weight-bold">
-            <b-avatar variant="success" v-if="this.useronline === 1" class="my-1"></b-avatar>
-            <b-avatar variant="secondary" class="my-1" v-else></b-avatar>
-                     {{ this.username }}  {{ this.userlast }} {{ this.group }}
-          </p>
-        </div>
-      </div>
-        </div>
-
-
-
-
-    <div class="col  border">
-      	<div class="userwin"><UsersWin v-bind:myid="this.myid"  v-bind:myip="this.myip" v-bind:myname="this.myname"></UsersWin></div>
-    </div>
--->
-
-
 
 
 
@@ -189,7 +166,7 @@ import ChatWin from '../components/ChatWin';
       if(getparam == true) {
         window.setTimeout(() => {
                 this.scrollToDown()
-        }, 1000)
+        }, 2000)
       //  alert(getparam)
       }
     }
@@ -207,7 +184,7 @@ import ChatWin from '../components/ChatWin';
       this.$root.$on('getMessInChat', () => {
           this.getMessage(true)
           //this.loadUserInfo();
-      //    this.usertext = '',
+          this.usertext = ''
       //    this.showchat = false
       }),
     //  this.$root.$on('ChatInPost', () => {

@@ -51,8 +51,6 @@
 <ListFile @sendfiles="sendfiles"></ListFile>
 
 
-{{this.channelid}}
-
 </div>
 </template>
 
