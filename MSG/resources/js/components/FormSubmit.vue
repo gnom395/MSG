@@ -13,7 +13,7 @@
         </label>
       </b-input-group-prepend>
 
-      <b-form-input class="inputsend" type="text" placeholder="Введите текст" v-model="message" rows="1" ref="message" v-on:keyup.ctrl.enter="submit"  autocomplete="off"></b-form-input>
+      <b-form-input class="inputsend" type="text" placeholder="Введите текст" v-model="message" rows="1" ref="message" v-on:keyup.ctrl.enter="submit"  autocomplete="off" @keydown="UserPrintMess"></b-form-input>
 
 
       <b-input-group-prepend>
@@ -105,7 +105,14 @@
         },
    methods : {
 
+     /// печатает сообщение
+     UserPrintMess(){
 
+          window.Echo.join('room.' + this.channelid)
+           .whisper('typing',{
+             name: this.usermy.name
+           })
+     },
 
      sendfiles(get){
        this.filesend = get

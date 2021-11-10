@@ -40,12 +40,10 @@
 
          </div>
 
-
+<span v-if="notify">{{ this.notify }}</span>
+<span v-if="isActive">{{ isActive.name }} набирает сообщение...</span>
 <br>
-
-
 </div>
-
 
 </div>
 
@@ -61,6 +59,8 @@
         channelall: null,
         oldchannel: null,
         messPush: null,
+        isActive: false,
+        notify: null,
         myid: parseInt(this.usermy.id)
     }},
 
@@ -109,11 +109,22 @@
             })
             /// пользователь зашел в чат
             .joining((user) => {
-              console.log(user.name + ' ' + user.id + ' в сети');
+
+              this.notify = user.name + ' зашел в чат'
+                setTimeout(() => {
+                  this.notify = ''
+                },4000);
+
+              //console.log(user.name + ' ' + user.id + ' в сети');
             })        /// пользователь вышел из чата
             .leaving((user) => {
 
-              console.log(user.name + ' не в сети');
+              this.notify = user.name + ' вышел из чата'
+                setTimeout(() => {
+                  this.notify = ''
+                },4000);
+
+              //console.log(user.name + ' не в сети');
             })
             .error((error) => {
               console.error(error);
@@ -130,6 +141,20 @@
               setTimeout(() => this.scrollToDown(), 1000);
               //this.$eventBus.$emit('dataToChat',data)
               console.log(data)
+            });
+
+            /////////// слушаем сокет кто печатает
+            window.Echo.join('room.' + this.oldchannel)
+            .listenForWhisper('typing', (e) => {
+              this.isActive = e;
+
+              if(this.tTimer) clearTimeout(this.tTimer)
+
+              this.tTimer = setTimeout(() => {
+                this.isActive = false
+                //this.$root.$emit('isActive', false)
+              },2000);
+              //console.log(e)
             });
 
       },
