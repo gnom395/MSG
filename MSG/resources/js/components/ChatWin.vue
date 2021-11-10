@@ -46,7 +46,7 @@
 
 </div>
 
-id канала: {{ this.channelall }}
+
 </div>
 
 

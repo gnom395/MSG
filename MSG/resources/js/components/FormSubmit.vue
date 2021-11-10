@@ -191,7 +191,11 @@
 
           try {
 
-            axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, room_id: this.channelid })
+                const today = new Date();
+                const timenow = today.getHours() + ":" + today.getMinutes();
+
+
+            axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
             .then(response => {
                 //this.message = '';
 
