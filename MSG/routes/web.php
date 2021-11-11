@@ -33,7 +33,6 @@ Route::post('/postmessage', [PostController::class, 'postMessage'])->name('postm
 
 Route::get('/', [MainController::class, 'EnterToChat'])->name('enter');
 
-
 Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));
     PresenceChat::dispatch($request->all());
