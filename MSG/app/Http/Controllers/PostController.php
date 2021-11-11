@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\MessagesNew;
 use App\Models\Group;
+use App\Models\User;
 use App\Models\UsersInGroup;
 use Illuminate\Support\Facades\Auth;
 use App\Events\PresenceChat;
@@ -16,8 +17,6 @@ class PostController extends Controller
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   public function postMessage(Request $request) {
 
-    PresenceChat::dispatch($request->all());
-
 
     if(is_null($request->from)) {
       //$from = $request->session()->get('id');
@@ -25,6 +24,21 @@ class PostController extends Controller
     } else {
       $from = $request->from;
     }
+
+    PresenceChat::dispatch($request->all());
+
+    $username = User::where('id',$request->from)->first();
+
+    $newMes = array(
+        'room_id' => 999,
+        'status' => 1,
+        'to' => $request->to,
+        'from' => $request->from,
+        'name' => $username->name,
+        'newmess' => 1
+      );
+
+    PresenceChat::dispatch($newMes);
 
     $to = $request->to;
     $mess = $request->message;

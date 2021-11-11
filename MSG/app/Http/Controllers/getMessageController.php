@@ -31,17 +31,27 @@ class getMessageController extends Controller
     ///  получаем сообщения
     $messages = DB::select('SELECT * FROM messages WHERE (fromUser = :from1 and toUser = :to1) or (toUser = :from2 and :to2=(case when fromUser <>0 then  fromUser else toGroup end)) ORDER BY id DESC LIMIT 30', ['from1' => $from, 'to1' => $to, 'from2' => $from, 'to2' => $to]);
 
+    /// если нет сообщений
+    if (empty($messages)) {
+      $response[] = array(
+        'success' => 'Нет сообщений'
+      );
+      return json_encode($response);
+
+      exit;
+    }
+
 
    /// удаляем новые сообщения с временной
-  //  MessagesNew::where('toUser', $from)
-  //    ->where('fromUser', $to)
-  //    ->delete();
+    MessagesNew::where('toUser', $from)
+      ->where('fromUser', $to)
+      ->delete();
 
    /// обновляем в главной таблице сообщения
-    //Message::where('toUser', $from)
-    //  ->where('fromUser', $to)
-    //  ->where('readMes', 0)
-    //  ->update(['readMes' => 1]);
+    Message::where('toUser', $from)
+      ->where('fromUser', $to)
+      ->where('readMes', 0)
+      ->update(['readMes' => 1]);
 
           //  "UPDATE `Message` SET `readMes` = '1' WHERE `toUser` = '".$from."' and fromUser = '".$to."' and readMes = '0'"
 
@@ -50,14 +60,6 @@ class getMessageController extends Controller
     //  'myid' => $request->session()->get('id')
     //];
 
-    if($messages == "[]") {
-
-      $response[] = array(
-        'error' => 'null'
-      );
-      return json_encode($response);
-
-    } else {
 
       foreach ($messages as $message) {
   //dd($request->to);
@@ -86,6 +88,6 @@ class getMessageController extends Controller
     //$response['success'] = $response;
     sort($response);
       return json_encode($response);
-    }
+
   }
 }

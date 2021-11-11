@@ -39,6 +39,7 @@
 
    <br><br>
 
+
 </div>
 
 <!--
@@ -67,7 +68,6 @@
 
     export default {
 
-      props: ['user'],
 
         data() {
             return {

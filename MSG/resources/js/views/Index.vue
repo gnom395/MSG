@@ -1,9 +1,11 @@
 <template>
 <div>
 
+
+
   <div class="row border">
 
-    <div class="col-md-4 d-none d-md-block">22</div>
+    <div class="col-md-4 d-none d-md-block">  {{ this.user.name }}</div>
     <div class="col">{{this.username}}</div>
         <div class="w-100"></div>
 
@@ -35,7 +37,6 @@
 
 
 <WinFiles :idfiles="idfiles"></WinFiles>
-
 
 
 </div>

@@ -55,11 +55,6 @@
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
 
 
-  <hr>
-
-<hr>
-
-
 </div>
 
 </template>
@@ -82,6 +77,7 @@
       loading: true,
       room_id: 999,
       data: '',
+      pushfile: [],
 
       styleObject: {
         opacity: '1.0',
@@ -164,8 +160,46 @@
             console.error(error);
         })
         .listen('PresenceChat', ({data}) => {
-          this.message.push(data.body)
-          console.log(data)
+          /// новые сообщения
+          // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
+
+          //console.log(data.to +' '+ this.usermy.id +' '+data.from + ' '+ this.$route.params.id)
+
+          if(data.to == this.usermy.id && data.from != this.$route.params.id) {
+
+            /// если новые письма уже есть
+              for (var j = 0; j < this.usertext.length; j++){
+                        console.log(data)
+
+                if (this.usertext[j].new_mes && data.from == this.usertext[j].id){
+                  this.usertext[j].new_mes++
+
+                  console.log('edit'+this.usertext[j].id)
+                  //    this.usertext.splice(h, 1);
+
+                  break;
+                } else {
+
+                  this.usertext.unshift({
+                    id: data.from,
+                    name: data.name,
+                    new_mes: 1,
+                    online: 1
+                  })
+                console.log('add'+this.usertext[j].id)
+                break;
+
+                  //this.usertext.unshift(data.body)
+                }
+              }
+            /// если нет новых писам то создаем запись сверху
+         }
+
+
+
+          //this.message.push(data.body)
+          //alert('111')
+
         });
 
   },
@@ -205,11 +239,11 @@
     },
     handleClick (userid,username,useronline,userlast,group) {
 
-      /// загружаем сообщения в чат ChatWin
-      this.$root.$emit('getMessInChat')
-
       /// делаем id часного канала
       this.$root.$emit('webchatconn',userid)
+
+      /// загружаем сообщения в чат ChatWin
+      this.$root.$emit('getMessInChat')
 
       //this.$root.$emit('CleanChat')
       /// отправляем данные о пользователе в index
@@ -217,6 +251,17 @@
       //this.$root.$emit('ScrollDown')
       this.hideUserChatOff()
       //this.useridget = null
+
+        /// удаляем json кнопки если есть новые сообщения
+        for (var h = 0; h < this.usertext.length; h++){
+          if (userid == this.usertext[h].id && this.usertext[h].new_mes){
+
+            this.usertext.splice(h, 1);
+            //console.log(this.usertext[h]);
+            break;
+          }
+        }
+
     },
     handleClickLoad (userid,username,useronline,userlast,group) {
       this.$root.$emit('NameUser',userid,username,useronline,userlast,group)

@@ -7,13 +7,15 @@
 
             <div v-for="messdat in chattextin" class="currency">
 
+              <div v-if="messdat.success"> <br><br>
+                <b-alert show variant="info">{{messdat.success}} &#128532;</b-alert>
+              </div>
 
-              <div class="container sendmes" v-if="messdat.from === myid">
+              <div style="text-align: right" v-if="messdat.from === myid">
+              <div class="sendmes">
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
-
                     <div v-if="messdat.attach != 0"><b-button  @click="showModalFile(messdat.attach)">Вложенные файлы</b-button></div>
-
                   </div>
                   <div class="w-100"></div>
                   <div class="col text-right">
@@ -24,8 +26,9 @@
                   </div>
                 </div>
               </div>
+              </div>
 
-              <div class="container readmes" v-else>
+              <div class="readmes" v-else>
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br></div>
                   <div class="w-100"></div>
@@ -34,6 +37,7 @@
                   </div>
                 </div>
               </div>
+
 
            </div>
 
@@ -81,14 +85,14 @@
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
           //this.$parent.$options.methods.chid(this.channelall)
           // отправляем id канала на FormSubmit
-          this.$root.$emit('idchannel',this.channelall)
+          //this.$root.$emit('idchannel',this.channelall)
 
         } else {
           this.channelall = this.usermy.id + '.' + userid
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
           //this.$parent.$options.methods.chid(this.channelall)
           // отправляем id канала на FormSubmit
-          this.$root.$emit('idchannel',this.channelall)
+          //this.$root.$emit('idchannel',this.channelall)
         }
 
         //console.log(this.channelall);
@@ -133,8 +137,7 @@
 //[ { "id": 1498, "to": 12, "from": 13, "message": "454", "attach": "0", "read": 0, "datesend": "09:00 10.11.2021" },
 //    { "message": "555", "to": "12", "ug": "user", "attach": null, "room_id": "12.13" } ]
 
-            this.messPush
-
+              this.messPush
               this.chattextin.push(data)
 
 
@@ -200,29 +203,30 @@ height: 100%;
 
 
 .sendmes {
-  max-width:300px;
-  min-width: 200px;
-  background-color: #3490dc;
-  color: #ffffff;
+  max-width:450px;
+  background-color: #cce5fe;
+  //color: #ffffff;
   border-radius: 5px 5px 0 5px;
-  right: 0;
-  //display: inline-block;
-  margin: 3px;
-  padding: 3px;
 
-  display: block; /* смещает только блоки */
-  margin-left: auto;
+  //display: inline-block;
+  margin: 4px;
+  padding: 4px;
+  /right: 0;
+  //display: block; /* смещает только блоки */
+  //display: table-cell;
+  //margin-left: auto;
    font-size: 16px;
+   position: relative;
+   display: inline-block;
 
 }
 .readmes {
-  max-width: 300px;
-  min-width: 200px;
-  background-color: #ffffff;
+  max-width:450px;
+  background-color: #e2e3e5;
   border-radius: 0 5px 5px 5px;
   border-radius: 5px;
-  margin: 3px;
-  padding: 3px;
+  margin: 4px;
+  padding: 4px;
   position: relative;
   display: inline-block;
   font-size: 16px;

@@ -91,9 +91,9 @@
     mounted() {
 
       /// получаем id канала из chatwin
-      this.$root.$on('idchannel', (idchannel) => {
-          this.channelid = idchannel
-      })
+      //this.$root.$on('idchannel', (idchannel) => {
+      //    this.channelid = idchannel
+      //})
 
       //this.$root.$on('channelid', (channelid) => {
       //    this.channelid = channelid
@@ -199,12 +199,17 @@
                 const today = new Date();
                 const timenow = today.getHours() + ":" + today.getMinutes();
 
+                /// делаем channelid
+                if(this.$route.params.id < this.usermy.id) {
+                  this.channelid = this.$route.params.id +'.'+ this.usermy.id
+                } else {
+                  this.channelid = this.usermy.id + '.' + this.$route.params.id
+                }
 
+console.log(this.channelid);
             axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
             .then(response => {
                 //this.message = '';
-
-
                 //this.message.push(response.message)
 
                 //alert(this.channelid)
@@ -216,11 +221,6 @@
                 this.$root.$emit('ListFileClean')
 
 
-              //  .catch(error => console.log(error))
-              //  .then(response => {
-
-
-              //  });
                 //console.log(response.data)
             })
 
