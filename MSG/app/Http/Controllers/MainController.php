@@ -25,7 +25,7 @@ class MainController extends Controller
         $ip_parts = explode (".", $ip);
         $ip_node = $ip_parts[0].".".$ip_parts[1];
 
-        if($ip_node != '192.168') {
+        if($ip_node != '192.168' and $ip_node != '172.25') {
           /// выкидваем если не из нашей сети
           return 'ip error '. $ip;
           exit;
