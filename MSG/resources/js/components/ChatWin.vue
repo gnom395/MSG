@@ -11,6 +11,8 @@
                 <b-alert show variant="info">{{messdat.success}} &#128532;</b-alert>
               </div>
 
+
+              <div v-else>
               <div style="text-align: right" v-if="messdat.from === myid">
               <div class="sendmes">
                 <div class="row">
@@ -37,7 +39,7 @@
                   </div>
                 </div>
               </div>
-
+            </div>
 
            </div>
 
@@ -97,14 +99,6 @@
 
         //console.log(this.channelall);
 
-        // если есть открытые каналы закрываем
-        if(this.oldchannel !== null) {
-          window.Echo.leave('room.' + this.oldchannel)
-          //alert(this.oldchannel)
-        }
-
-        this.oldchannel = this.channelall
-
 
         window.Echo.join('room.' + this.channelall)
       //  this.channel
@@ -140,10 +134,10 @@
               this.messPush
               this.chattextin.push(data)
 
-
-              setTimeout(() => this.scrollToDown(), 1000);
+              //this.scrollToDown()
+              setTimeout(() => this.scrollToDown(), 200);
               //this.$eventBus.$emit('dataToChat',data)
-              console.log(data)
+              //console.log(data)
             });
 
             /////////// слушаем сокет кто печатает
@@ -159,6 +153,16 @@
               },2000);
               //console.log(e)
             });
+
+        ////////////// отключаемся
+        // если есть открытые каналы закрываем
+        if(this.oldchannel !== null) {
+          //window.Echo.leaveChannel('room.' + this.oldchannel)
+          window.Echo.leave('room.' + this.oldchannel);
+          console.log(this.oldchannel);
+        }
+
+        this.oldchannel = this.channelall
 
       },
       scrollToDown() {

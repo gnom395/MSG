@@ -206,7 +206,7 @@
                   this.channelid = this.usermy.id + '.' + this.$route.params.id
                 }
 
-console.log(this.channelid);
+                //console.log(this.channelid);
             axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
             .then(response => {
                 //this.message = '';

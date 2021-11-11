@@ -5,8 +5,24 @@
 
   <div class="row border">
 
-    <div class="col-md-4 d-none d-md-block">  {{ this.user.name }}</div>
-    <div class="col">{{this.username}}</div>
+    <div class="col-md-4 d-none d-md-block my-1">
+      <p class="font-weight-bold">
+        <b-avatar variant="light"></b-avatar> {{ this.user.name }}
+      </p>
+    </div>
+    <div class="col my-1">
+
+      <div class="clearfix">
+        <p class="font-weight-bold">
+          <b-avatar variant="success" v-if="this.useronline === 1"></b-avatar>
+          <b-avatar variant="secondary" v-else></b-avatar>
+          {{this.username}}
+          <b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner>
+        </p>
+      </div>
+
+
+    </div>
         <div class="w-100"></div>
 
     <div class="col-md-4 d-none d-md-block">
@@ -23,11 +39,13 @@
 
     <div class="col">
 
-      <ChatWin
-      :chattextin="chattext"
-      :usermy="this.user"
-      ref="scrollToDownWin"
-      ></ChatWin>
+      <div v-bind:style="styleObject">
+        <ChatWin
+        :chattextin="chattext"
+        :usermy="this.user"
+        ref="scrollToDownWin"
+        ></ChatWin>
+    </div>
 
       <FormSubmit v-if="this.$route.params.id"
       :usermy="this.user"
@@ -68,26 +86,34 @@ import ChatWin from '../components/ChatWin';
     //id: null,
       dataread: null,
       sf: null,
-    //  loadingchat: true,
       username: null,
       useronline: null,
       userid: null,
       userlast: null,
       group: null,
-      showchat: false,
+      loadingchat: false,
       idfiles: '',
-      //timestamp: null,
-      //polling: '',
-      chId: ''
 
+      styleObject: {
+        opacity: '1.0',
+        //'pointer-events' : 'none'
+      }
 
-      //obj: this.$route.params.id,
-      //objold: obj
     };
   },
   methods : {
 
-
+    hideChatOff() {
+      this.styleObject.opacity = '0.4',
+      this.styleObject.pointerEvents = 'none'
+      this.loadingchat = true
+    },
+    hideChatOn() {
+          this.styleObject.opacity = '1.0',
+          this.styleObject.pointerEvents = 'visible'
+          this.loadingchat = false
+          //alert('v')
+    },
 
 
     //startTimerChat(){
@@ -141,7 +167,7 @@ import ChatWin from '../components/ChatWin';
       //this.sf = res
 
     //},
-    getMessage(getparam){
+    getMessage(){
 
       if(typeof(this.$route.params.id) !== 'undefined' ) {
 
@@ -156,50 +182,34 @@ import ChatWin from '../components/ChatWin';
           //.finally(() => (
           .then(response => (
           //  if(response.data.status){
-                this.showchat = true,
-                //this.$root.$emit('hideUsers')
-                this.$refs.hideUserChatOn.hideUserChatOn()
+                this.hideChatOn(),
+                this.$refs.hideUserChatOn.hideUserChatOn(),
+                this.scrollToDown()
 
           //  }
         ));
       }
 
-      if(getparam == true) {
-        window.setTimeout(() => {
-                this.scrollToDown()
-        }, 2000)
+      //if(getparam == true) {
+      //  window.setTimeout(() => {
+              //  this.scrollToDown()
+      //}, 2000)
       //  alert(getparam)
-      }
+    //  }
     }
   },
 
 
     mounted() {
 
-
-      //if(typeof(this.$route.params.id) !== 'undefined' ) {
-      //  this.loadUserInfo();
-      //}
-
-
       this.$root.$on('getMessInChat', () => {
-          this.getMessage(true)
+          this.getMessage()
           //this.loadUserInfo();
           this.usertext = ''
-      //    this.showchat = false
+          this.hideChatOff()
+          //this.loadingchat = true
       }),
-    //  this.$root.$on('ChatInPost', () => {
-      //    this.getMessage(true);
 
-        // window.setTimeout(() => {
-        //          this.scrollToDown()
-        //  }, 1000)
-          //this.usertext = '',
-          //this.showchat = false
-      //}),
-    //  this.$root.$on('CleanChat', () => {
-    //      this.cleanChatLoad();
-    //  }),
       this.$root.$on('NameUserUp', (userid,username,useronline,userlast,group) => {
           this.userid = userid,
           this.username = username,
@@ -213,7 +223,7 @@ import ChatWin from '../components/ChatWin';
       //}, 10000)
 
       //this.startTimerChat()
-      this.getMessage(true)
+      this.getMessage()
 
 
     },

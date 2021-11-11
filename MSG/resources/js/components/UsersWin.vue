@@ -169,12 +169,12 @@
 
             /// если новые письма уже есть
               for (var j = 0; j < this.usertext.length; j++){
-                        console.log(data)
+                  //console.log(data)
 
                 if (this.usertext[j].new_mes && data.from == this.usertext[j].id){
                   this.usertext[j].new_mes++
 
-                  console.log('edit'+this.usertext[j].id)
+                  //console.log('edit'+this.usertext[j].id)
                   //    this.usertext.splice(h, 1);
 
                   break;
@@ -186,7 +186,7 @@
                     new_mes: 1,
                     online: 1
                   })
-                console.log('add'+this.usertext[j].id)
+                //console.log('add'+this.usertext[j].id)
                 break;
 
                   //this.usertext.unshift(data.body)
