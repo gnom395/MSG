@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function EnterToRouter(Request $request) {
-        return view('index');
-    }
+  //  public function EnterToRouter(Request $request) {
+      //  EnterToChat(Request $request);
+  //      return view('index');
+  //  }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function EnterToChat(Request $request) {
@@ -79,6 +80,7 @@ class MainController extends Controller
 
 
         Auth::loginUsingId($user->id, $remember = true);
+
 
         //return redirect()->route('enter');
         //return view('index', ['user' => Auth::user() ]);

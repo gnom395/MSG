@@ -4,10 +4,10 @@
 
 
   <div class="row border">
-
-    <div class="col-md-4 d-none d-md-block my-1">
+<!-- d-none d-md-block  d-none d-md-block-->
+    <div class="col-md-4 my-1">
       <p class="font-weight-bold">
-        <b-avatar variant="light"></b-avatar> {{ this.user.name }}
+        <b-avatar variant="light"></b-avatar> {{ this.myinfo.name }}
       </p>
     </div>
     <div class="col my-1">
@@ -25,14 +25,12 @@
     </div>
         <div class="w-100"></div>
 
-    <div class="col-md-4 d-none d-md-block">
-
+    <div class="col-md-4">
       <UsersWin
       class="userwin"
-      :usermy="this.user"
+      :myinfo="this.myinfo"
       ref="hideUserChatOn"
       ></UsersWin>
-
     </div>
 
 
@@ -42,19 +40,20 @@
       <div v-bind:style="styleObject">
         <ChatWin
         :chattextin="chattext"
-        :usermy="this.user"
+        :myinfo="this.myinfo"
         ref="scrollToDownWin"
         ></ChatWin>
     </div>
 
       <FormSubmit v-if="this.$route.params.id"
-      :usermy="this.user"
+      :myinfo="this.myinfo"
       ></FormSubmit>
     </div>
   </div>
 
 
 <WinFiles :idfiles="idfiles"></WinFiles>
+
 
 
 </div>
@@ -77,7 +76,7 @@ import ChatWin from '../components/ChatWin';
       WinFiles,
       ChatWin
     },
-      props: ['user'],
+      props: ['myinfo'],
   data() {
 
     return {
@@ -156,17 +155,7 @@ import ChatWin from '../components/ChatWin';
     //  }
     },
 
-    //oldChat(res){
 
-    //  if(this.sf != res) {
-        /// если id поменялся
-      //  this.scrollToDown()
-      //  alert(this.sf +' '+ res)
-      //}
-
-      //this.sf = res
-
-    //},
     getMessage(){
 
       if(typeof(this.$route.params.id) !== 'undefined' ) {

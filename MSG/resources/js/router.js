@@ -5,7 +5,7 @@ Vue.use(vueRouter);
 
 import Index from "./views/Index";
 import Changename from "./views/Changename";
-import UsersWin from "./components/UsersWin";
+
 
 const routes = [
     {
@@ -17,19 +17,11 @@ const routes = [
         component: Changename
     },
     {
-        path: "/userwin",
-        component: UsersWin
-    },
-    {
         path: "/:ug/:id",
         component: Index,
     },
     {
         path: "/user/:id/:idmes",
-        component: Index
-    },
-    {
-        path: "/chat",
         component: Index
     }
 

@@ -12,12 +12,19 @@
                     <strong>5555</strong>
                   </span>
                 </div>
+                <div class="col-md-6">
+                  <input id="email" type="text" class="form-control" v-model="email" name="email" required autocomplete="email">
+                    <span class="invalid-feedback" role="alert">
+                      <strong>5555</strong>
+                    </span>
+                  </div>
+
          </div>
          <div class="form-group row">
              <label for="submit" class="col-md-4 col-form-label text-md-right"></label>
 
              <div class="col-md-6">
-              <button class="btn btn-primary" @click="submit">Войти</button>
+              <button class="btn btn-primary" @click="submit">Сохранить</button>
 
                </div>
         </div>

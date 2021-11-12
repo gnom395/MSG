@@ -14,7 +14,7 @@
         <br>
 
         <div class="container">
-          <router-view :user="{{ $user ?? '' }}"></router-view>
+          <router-view :myinfo="{{ $user }}"></router-view>
         </div>
       </div>
 

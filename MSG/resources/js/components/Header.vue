@@ -2,7 +2,7 @@
 <div>
 
   <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
-     <b-navbar-brand href="#">NavBar</b-navbar-brand>
+     <b-navbar-brand href="#">Сообщения</b-navbar-brand>
 
      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -10,7 +10,8 @@
 
        <ul class="navbar-nav mr-auto">
          <li class="nav-item" v-for="link in links">
-           <router-link :to="link.href" class="nav-link">{{ link.title }}</router-link>
+           <a :href="link.href" class="nav-link">{{ link.title }}</a>
+          <!--<router-link :to="link.href" class="nav-link">{{ link.title }}</router-link>-->
              </li>
            </ul>
 
@@ -79,11 +80,7 @@
                     {
                         title: "Сменить имя",
                         href: "/changename"
-                    },
-                      {
-                          title: "userwin",
-                          href: "/userwin"
-                      }
+                    }
                 ]
             }
         },

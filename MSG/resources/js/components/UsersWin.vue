@@ -62,8 +62,6 @@
 <script>
 //import axios from 'axios';
 
-
-
   export default {
 
   data() {
@@ -85,13 +83,13 @@
       }
     };
   },
-      props: ['usermy'],
+      props: ['myinfo'],
 
 
   mounted() {
     this.loading = true
 
-
+    //window.Echo.leave('room.' + this.room_id)
 /// слушаем ответ от чата
     //this.$root.$on('hideUsers', () => {
     //    this.hideUserChatOn()
@@ -163,9 +161,9 @@
           /// новые сообщения
           // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
 
-          //console.log(data.to +' '+ this.usermy.id +' '+data.from + ' '+ this.$route.params.id)
+          //console.log(data.to +' '+ this.myinfo.id +' '+data.from + ' '+ this.$route.params.id)
 
-          if(data.to == this.usermy.id && data.from != this.$route.params.id) {
+          if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
 
             /// если новые письма уже есть
               for (var j = 0; j < this.usertext.length; j++){
@@ -195,11 +193,6 @@
             /// если нет новых писам то создаем запись сверху
          }
 
-
-
-          //this.message.push(data.body)
-          //alert('111')
-
         });
 
   },
@@ -208,11 +201,14 @@
       return window.Echo.join('room.' + this.room_id)
     }
   },
+  destroyed(){
+    window.Echo.leave('room.' + this.room_id)
+  },
   methods: {
 
     getusers(){
       axios
-      .get('/getusers?myid='+this.usermy.id)
+      .get('/getusers?myid='+this.myinfo.id)
       .then(response => (
         this.usertext = response.data,
         this.loading = false

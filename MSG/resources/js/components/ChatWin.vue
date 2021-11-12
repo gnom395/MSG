@@ -16,7 +16,7 @@
               <div style="text-align: right" v-if="messdat.from === myid">
               <div class="sendmes">
                 <div class="row">
-                  <div class="col">{{ messdat.message }}<br>
+                  <div class="col" style="text-align: left">{{ messdat.message }}<br>
                     <div v-if="messdat.attach != 0"><b-button  @click="showModalFile(messdat.attach)">Вложенные файлы</b-button></div>
                   </div>
                   <div class="w-100"></div>
@@ -67,14 +67,14 @@
         messPush: null,
         isActive: false,
         notify: null,
-        myid: parseInt(this.usermy.id)
+        myid: parseInt(this.myinfo.id)
     }},
 
-    props: ['chattextin','usermy'],
+    props: ['chattextin','myinfo'],
 
   //  computed:{
   //    channel(){
-  //      return window.Echo.join('room.' + this.usermy.id)
+  //      return window.Echo.join('room.' + this.myinfo.id)
   //    }
   //  },
     methods : {
@@ -82,15 +82,15 @@
 
       webchatconn(userid) {
 
-        if(userid < this.usermy.id) {
-          this.channelall = userid +'.'+ this.usermy.id
+        if(userid < this.myinfo.id) {
+          this.channelall = userid +'.'+ this.myinfo.id
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
           //this.$parent.$options.methods.chid(this.channelall)
           // отправляем id канала на FormSubmit
           //this.$root.$emit('idchannel',this.channelall)
 
         } else {
-          this.channelall = this.usermy.id + '.' + userid
+          this.channelall = this.myinfo.id + '.' + userid
           //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
           //this.$parent.$options.methods.chid(this.channelall)
           // отправляем id канала на FormSubmit
@@ -98,6 +98,15 @@
         }
 
         //console.log(this.channelall);
+
+        ////////////// отключаемся
+        // если есть открытые каналы закрываем
+        if(this.oldchannel !== null) {
+          //window.Echo.leaveChannel('room.' + this.oldchannel)
+          window.Echo.leave('room.' + this.oldchannel);
+          console.log(this.oldchannel);
+        }
+        this.oldchannel = this.channelall
 
 
         window.Echo.join('room.' + this.channelall)
@@ -154,15 +163,7 @@
               //console.log(e)
             });
 
-        ////////////// отключаемся
-        // если есть открытые каналы закрываем
-        if(this.oldchannel !== null) {
-          //window.Echo.leaveChannel('room.' + this.oldchannel)
-          window.Echo.leave('room.' + this.oldchannel);
-          console.log(this.oldchannel);
-        }
 
-        this.oldchannel = this.channelall
 
       },
       scrollToDown() {

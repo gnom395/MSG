@@ -5,32 +5,38 @@
 
         <div class="card-body">
 
-
           <div class="form-group row">
-              <label for="name" class="col-md-4 col-form-label text-md-right">Введите ФИО</label>
+              <label for="name" class="col-md-4 col-form-label text-md-right">Имя Фамилия</label>
 
               <div class="col-md-6">
                 <input  type="text" class="form-control" v-model="name" required autocomplete="name" autofocus>
-                  <span class="invalid-feedback" role="alert">
-                    <strong>5555</strong>
-                  </span>
-                </div>
+                  <small class="form-text text-muted">введите ваше имя и фамилию</small>
+              </div>
          </div>
+
          <div class="form-group row">
-             <label for="submit" class="col-md-4 col-form-label text-md-right"></label>
+             <label for="name" class="col-md-4 col-form-label text-md-right">Почта</label>
 
              <div class="col-md-6">
-              <button class="btn btn-primary" @click="submit">Войти</button>
-
+               <input  type="text" class="form-control" v-model="email" required autocomplete="email">
+                  <small class="form-text text-muted">адрес вашей корпоративной почты</small>
                </div>
         </div>
 
-        <p v-if="errors.length">
-          <b>Пожалуйста исправьте указанные ошибки:</b>
-          <ul>
-            <li v-for="error in errors">{{ error }}</li>
-          </ul>
-        </p>
+
+         <div class="form-group row">
+             <label for="submit" class="col-md-4 col-form-label text-md-right"></label>
+             <div class="col-md-6">
+              <button class="btn btn-primary" @click="submit">Сохранить и войти</button>
+               </div>
+        </div>
+
+              <p v-if="errors.length">
+                <b>Пожалуйста исправьте указанные ошибки:</b>
+                <ul>
+                  <li v-for="error in errors">{{ error }}</li>
+                </ul>
+              </p>
 
         </div>
 
@@ -46,7 +52,8 @@
         data() {
           return {
             errors: [],
-            name: null
+            name: null,
+            email: null
           };
         },
         mounted() {

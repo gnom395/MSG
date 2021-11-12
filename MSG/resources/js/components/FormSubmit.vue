@@ -66,7 +66,7 @@
       },
 
       //props: ['myid','myip','myname'],
-      props: ['usermy'],
+      props: ['myinfo'],
 
     data() {
       return {
@@ -108,7 +108,7 @@
 
           window.Echo.join('room.' + this.channelid)
            .whisper('typing',{
-             name: this.usermy.name
+             name: this.myinfo.name
            })
      },
 
@@ -144,7 +144,7 @@
       //axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug })
        let formData = new FormData();
        formData.append( 'file', this.file );
-       formData.append( 'fromid', this.usermy.id );
+       formData.append( 'fromid', this.myinfo.id );
        formData.append( 'attach', this.filesend );
        axios.post( '/postfile',
         formData,
@@ -200,14 +200,14 @@
                 const timenow = today.getHours() + ":" + today.getMinutes();
 
                 /// делаем channelid
-                if(this.$route.params.id < this.usermy.id) {
-                  this.channelid = this.$route.params.id +'.'+ this.usermy.id
+                if(this.$route.params.id < this.myinfo.id) {
+                  this.channelid = this.$route.params.id +'.'+ this.myinfo.id
                 } else {
-                  this.channelid = this.usermy.id + '.' + this.$route.params.id
+                  this.channelid = this.myinfo.id + '.' + this.$route.params.id
                 }
 
                 //console.log(this.channelid);
-            axios.post('/postmessage', { to: this.$route.params.id, from: this.usermy.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
+            axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
             .then(response => {
                 //this.message = '';
                 //this.message.push(response.message)
