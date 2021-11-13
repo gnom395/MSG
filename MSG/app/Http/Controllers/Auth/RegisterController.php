@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'ip' => '',
             'daetOnline' => '',
-            'id_office' = ''
+            'id_office' => ''
         ]);
     }
 }
