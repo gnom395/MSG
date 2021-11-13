@@ -17,6 +17,7 @@
 
 
       <b-input-group-prepend>
+        <i class="bi bi-send sendbut" style="font-size:30px;"></i>
         <label>
           <input v-if="this.message" class="sendbut" type="image" src="/assets/img/send.png" border="0" alt="Submit">
         </label>

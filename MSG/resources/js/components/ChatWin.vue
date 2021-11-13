@@ -5,6 +5,7 @@
 
       <div class="scroll" ref="cha">
 
+
             <div v-for="messdat in chattextin" class="currency">
 
               <div v-if="messdat.success"> <br><br>
