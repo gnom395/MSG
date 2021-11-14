@@ -29,9 +29,9 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers');
-Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages');
-Route::post('/postmessage', [PostController::class, 'postMessage'])->name('postmessage');
+Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers')->middleware('auth');
+Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');
+Route::post('/postmessage', [PostController::class, 'postMessage'])->name('postmessage')->middleware('auth');
 //Route::post('/postmessage', [PresenceChat::class, 'postMessage'])->name('postmessage');
 
 //->middleware('auth')
@@ -42,16 +42,16 @@ Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));
     PresenceChat::dispatch($request->all());
     //return $request->input('body');
-});
+})->middleware('auth');
 //Route::post('/messages', 'index2');
 //Route::view('/', 'index')->middleware('auth');
 
-Route::post('/editname', [MainController::class, 'EditName'])->name('editname');
-Route::get('/changename', [MainController::class, 'ChangeName'])->name('changename');
+Route::post('/editname', [MainController::class, 'EditName'])->name('editname')->middleware('auth');
+Route::get('/changename', [MainController::class, 'ChangeName'])->name('changename')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::get('/{any}', [MainController::class, 'EnterToChat'])->where('any', '.*')->middleware('auth');
 // The user is logged in...
