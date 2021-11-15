@@ -26,7 +26,8 @@
                     <img v-else-if="messdat.read === 2" src="/assets/img/waiting.png" title="Доставляется">
                     <img v-else src="/assets/img/read2.png" title="Не прочитано">
                       <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        <button class="dropdown-item" type="button" @click="delMsg(messdat.id)">Удалить</button>
+                        <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
+                        <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                       </div>
                   </div>
                 </div>
@@ -41,7 +42,8 @@
                   <div class="col text-right">
                     <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                      <button class="dropdown-item" type="button" @click="delMsg(messdat.id)">Удалить</button>
+                      <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
+                      <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                     </div>
                   </div>
                 </div>
@@ -76,7 +78,8 @@
         isActive: false,
         notify: null,
         myid: parseInt(this.myinfo.id),
-        idmes: null
+        idmes: null,
+        delrole: 0
     }},
 
     props: ['chattextin','myinfo'],
@@ -88,17 +91,21 @@
   //  },
     methods : {
 
-      delMsg(mesid) {
-        if(mesid) {
+      delMsg(idmes,delrole) {
+
+              console.log(idmes + ' ' +delrole)
+        if(idmes) {
           this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение? ')
-            .then(value => {
-              if(value){
-                console.log(value);
-              }
+
+          axios.post('/delmes', { idmes: this.mesid, delrole: this.delrole })
+            .then(response => {
+              //this.message.push(response.message)
+              console.log(response)
             })
-        } else {
-            console.log('нет id ' + mesid);
-        }
+              //console.log(response);
+       }
+
+
           //.catch(err => {
           //  // An error occurred
           //})

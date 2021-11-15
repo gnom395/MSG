@@ -66,6 +66,8 @@ Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers
 Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');
 Route::post('/postmessage', [PostController::class, 'postMessage'])->name('postmessage')->middleware('auth');
 
+Route::post('/delmes', [MainController::class, 'DelMes'])->name('delmes')->middleware('auth');
+
 
 Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));

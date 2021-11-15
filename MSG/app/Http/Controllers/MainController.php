@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Messages;
 
 use Illuminate\Http\Request;
 
@@ -86,6 +87,15 @@ class MainController extends Controller
         //return view('index', ['user' => Auth::user() ]);
       }
 
+      public function DelMes(Request $request) {
+
+        if(!is_null($request->idmes)) {
+          return $request->idmes;
+        }
+        if(!is_null($request->delrole)) {
+
+        }
+      }
 
 
     public function ChangeName(Request $request) {

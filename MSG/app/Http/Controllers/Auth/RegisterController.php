@@ -72,6 +72,7 @@ class RegisterController extends Controller
             'ip' => '',
             'daetOnline' => '',
             'id_office' => ''
+            'role' => 0
         ]);
     }
 }
