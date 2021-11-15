@@ -8,7 +8,11 @@ use App\Http\Controllers\PostController;
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Models\User;
 /*
+
 
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,20 +27,45 @@ use Illuminate\Support\Facades\Auth;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+//$ip = "192.168.88.16";
 
 
-//Route::post('/messages', [MainController::class, 'EnterOk2']);
+Route::get('/register', function(Request $request) {
+  if(Auth::check()) {
+    return redirect(route('home'));
+  }
+  return view('auth/register');
+})->name('register');
+
+Route::get('/login', function(Request $request) {
+
+  $ip = $request->ip();
+  $ip_parts = explode (".", $ip);
+  $ip_node = $ip_parts[0].".".$ip_parts[1];
+
+    if($ip_node == '192.168') {
+      $User = User::where('ip', $ip)->first();
+      if(!is_null($User)) {
+        // есть в базе
+        Auth::loginUsingId($User->id, $remember = true);
+        return view('index', ['user' => Auth::user() ]);
+      }
+    }
+
+  //if(Auth::check()) {
+  ///  return redirect(route('home'));
+  ///}
+  return view('auth/login');
+})->name('login');
+ Route::post('login', [LoginController::class, 'login']);
+ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
 
 Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers')->middleware('auth');
 Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');
 Route::post('/postmessage', [PostController::class, 'postMessage'])->name('postmessage')->middleware('auth');
-//Route::post('/postmessage', [PresenceChat::class, 'postMessage'])->name('postmessage');
 
-//->middleware('auth')
-
-//Route::get('/', [MainController::class, 'EnterToChat'])->name('enter');
 
 Route::post('/messages', function(Request $request) {
     //PrivateChat::dispatch($request->input('body'));
@@ -49,7 +78,7 @@ Route::post('/messages', function(Request $request) {
 Route::post('/editname', [MainController::class, 'EditName'])->name('editname')->middleware('auth');
 Route::get('/changename', [MainController::class, 'ChangeName'])->name('changename')->middleware('auth');
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 

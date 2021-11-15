@@ -69,6 +69,7 @@ import FormSubmit from '../components/FormSubmit'
 import WinFiles from '../components/WinFiles';
 import ChatWin from '../components/ChatWin';
 
+
   export default {
     components: {
       UsersWin,
@@ -101,7 +102,9 @@ import ChatWin from '../components/ChatWin';
     };
   },
   methods : {
-
+    okDelMes(){
+      alert('sd');
+    },
     hideChatOff() {
       this.styleObject.opacity = '0.4',
       this.styleObject.pointerEvents = 'none'

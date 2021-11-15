@@ -24,11 +24,22 @@ class PostController extends Controller
     } else {
       $from = $request->from;
     }
+  //  $newPrivarMes = array(
+  //      //'id' => $message->id(),
+  //      'to' => $request->to,
+  //      'from' => $request->from,
+//        'room_id' => $request->room_id,
+    //    'message' => $request->message,
+    //    'ug' => $request->ug,
+    //    'attach' => $request->attach,
+  //      'datesend' => $request->datesend,
+    //    'read' => $request->read,
+    //  );
+    //  PresenceChat::dispatch($request->all());
 
-    PresenceChat::dispatch($request->all());
 
+    /// шлем на вебсокет
     $username = User::where('id',$request->from)->first();
-
     $newMes = array(
         'room_id' => 999,
         'status' => 1,
@@ -37,7 +48,6 @@ class PostController extends Controller
         'name' => $username->name,
         'newmess' => 1
       );
-
     PresenceChat::dispatch($newMes);
 
     $to = $request->to;
@@ -77,6 +87,19 @@ class PostController extends Controller
 
          $messageNew->save();
 
+         $newPrivarMes = array(
+             'id' => $message->id,
+             'to' => $request->to,
+             'from' => $request->from,
+             'room_id' => $request->room_id,
+             'message' => $request->message,
+             'ug' => $request->ug,
+             'attach' => $request->attach,
+             'datesend' => $request->datesend,
+             'read' => $request->read
+           );
+          PresenceChat::dispatch($newPrivarMes);
+
          //return MainController::answerJson('response','1','111');
          $successAr = array(
              'success' => '1',
@@ -85,7 +108,9 @@ class PostController extends Controller
              'from' => $message->fromUser,
              'attach' => $attachFile
            );
-         return json_encode($successAr);
+            return json_encode($successAr);
+
+
 
     /// это отправляем группе
        }  else {
@@ -120,8 +145,10 @@ class PostController extends Controller
         /// добавляем сообщения
 
 
+
          $messageGrp = UsersInGroup::where('id_group',$to)->get();
 
+      //  dd($request->all());
 
     // если не прошел каунт то пусто
          if(!count($messageGrp)) {
@@ -167,8 +194,10 @@ class PostController extends Controller
               return json_encode($successAr);
 
             }
+
               //return MainController::answerJson('response','4','add');
           }
+
 
 
   }

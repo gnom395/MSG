@@ -12,7 +12,6 @@
                 <b-alert show variant="info">{{messdat.success}} &#128532;</b-alert>
               </div>
 
-
               <div v-else>
               <div style="text-align: right" v-if="messdat.from === myid">
               <div class="sendmes">
@@ -22,12 +21,16 @@
                   </div>
                   <div class="w-100"></div>
                   <div class="col text-right">
-                    <small> {{ messdat.datesend }} </small>
+                    <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
                     <img v-if="messdat.read === 1" src="/assets/img/read1.png" title="Прочитано">
                     <img v-else-if="messdat.read === 2" src="/assets/img/waiting.png" title="Доставляется">
                     <img v-else src="/assets/img/read2.png" title="Не прочитано">
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <button class="dropdown-item" type="button" @click="delMsg(messdat.id)">Удалить</button>
+                      </div>
                   </div>
                 </div>
+               </div>
               </div>
               </div>
 
@@ -36,13 +39,16 @@
                   <div class="col">{{ messdat.message }}<br></div>
                   <div class="w-100"></div>
                   <div class="col text-right">
-                    <small> {{ messdat.datesend }} </small>
+                    <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                      <button class="dropdown-item" type="button" @click="delMsg(messdat.id)">Удалить</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-           </div>
+
 
 
          </div>
@@ -51,6 +57,7 @@
 <span v-if="isActive">{{ isActive.name }} набирает сообщение...</span>
 <br>
 </div>
+
 
 </div>
 
@@ -68,7 +75,8 @@
         messPush: null,
         isActive: false,
         notify: null,
-        myid: parseInt(this.myinfo.id)
+        myid: parseInt(this.myinfo.id),
+        idmes: null
     }},
 
     props: ['chattextin','myinfo'],
@@ -80,7 +88,21 @@
   //  },
     methods : {
 
-
+      delMsg(mesid) {
+        if(mesid) {
+          this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение? ')
+            .then(value => {
+              if(value){
+                console.log(value);
+              }
+            })
+        } else {
+            console.log('нет id ' + mesid);
+        }
+          //.catch(err => {
+          //  // An error occurred
+          //})
+      },
       webchatconn(userid) {
 
         if(userid < this.myinfo.id) {
@@ -175,6 +197,10 @@
       showModalFile(idfiles) {
         this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
         this.idfiles = idfiles
+      },
+      delMes(idmes) {
+        this.$root.$emit('bv::show::modal', 'modal-2', '#btnShow', idmes)
+        this.idmes = idmes
       },
     },
 
