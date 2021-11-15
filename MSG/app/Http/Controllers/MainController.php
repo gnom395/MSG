@@ -89,12 +89,17 @@ class MainController extends Controller
 
       public function DelMes(Request $request) {
 
-        if(!is_null($request->idmes)) {
-          return $request->idmes;
-        }
-        if(!is_null($request->delrole)) {
+        //$res=Message::where('id',$id)->delete();
 
+        if(!is_null($request->idmes)) {
+
+          Message::where('id', $request->idmes)
+            ->update(['name' => $request->name]);
+            return '1';
         }
+        //if(!is_null($request->delrole)) {
+
+        //}
       }
 
 
