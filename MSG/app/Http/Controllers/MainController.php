@@ -92,22 +92,21 @@ class MainController extends Controller
         //$res=Message::where('id',$id)->delete();
 
         if(!is_null($request->idmes)) {
-
-          if($request->delall == 0) {
-            $ans1 = Message::where('id', $request->idmes)
-                    ->where('fromUser', Auth::id())
-                    ->update(['deleteMesFrom' => 1]);
-            $ans2 = Message::where('id', $request->idmes)
-                   ->where('toUser', Auth::id())
-                   ->update(['deleteMesTo' => 1]);
-          }
-        //  Message::where('id', $request->idmes)
-        //    ->update(['name' => $request->name]);
-            return $ans1 ." ". $ans2;
+           if($request->delall == 0) {
+             Message::where('id', $request->idmes)
+                     ->where('fromUser', Auth::id())
+                     ->update(['deleteMesFrom' => 1]);
+             Message::where('id', $request->idmes)
+                    ->where('toUser', Auth::id())
+                    ->update(['deleteMesTo' => 1]);
+                    return 1;
+           } else {
+             /// для админа
+             Message::where('id', $request->idmes)
+                    ->update(['deleteMesTo' => 1,'deleteMesFrom' => 1]);
+             return 1;
+           }
         }
-        //if(!is_null($request->delrole)) {
-
-        //}
       }
 
 

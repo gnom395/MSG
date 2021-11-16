@@ -12,7 +12,7 @@
                 <b-alert show variant="info">{{messdat.success}} &#128532;</b-alert>
               </div>
 
-              <div v-else>
+
               <div style="text-align: right" v-if="messdat.from === myid">
               <div class="sendmes">
                 <div class="row">
@@ -27,14 +27,12 @@
                     <img v-else src="/assets/img/read2.png" title="Не прочитано">
                       <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                         <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
-                        <button v-if="messdat.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
+                        <button v-if="myinfo.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                       </div>
                   </div>
                 </div>
                </div>
               </div>
-              </div>
-
               <div class="readmes" v-else>
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br></div>
@@ -43,14 +41,12 @@
                     <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                       <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
-                      <button v-if="messdat.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
+                      <button v-if="myinfo.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-{{this.chattextin}}
 
          </div>
 
@@ -94,13 +90,24 @@
 
               console.log(idmes + ' ' +delall)
         if(idmes) {
-          this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение? '+idmes)
+          this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение?')
           .then(value => {
             //console.log(value);
             if(value === true) {
               axios.post('/delmes', { idmes: idmes, delall: delall })
                 .then(response => {
-                                      console.log(response.data)
+                  //  console.log(response.data)
+
+                    /// удалим сообщение
+                    for (var p = 0; p < this.chattextin.length; p++){
+                      if (idmes == this.chattextin[p].id ){
+                        this.chattextin[p].message = 'Удалено';
+                        this.chattextin[p].datesend = '';
+                        //console.log(this.usertext[i].online);
+                        break;
+                      }
+                    }
+
                   if(response.data === 1){
                     console.log('Сообщение удалено')
                   } else {

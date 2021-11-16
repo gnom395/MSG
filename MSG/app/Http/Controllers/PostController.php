@@ -87,7 +87,7 @@ class PostController extends Controller
 
          $messageNew->save();
 
-         $newPrivarMes = array(
+        $newPrivarMes = array(
              'id' => $message->id,
              'to' => $request->to,
              'from' => $request->from,
