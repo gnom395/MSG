@@ -27,7 +27,7 @@
                     <img v-else src="/assets/img/read2.png" title="Не прочитано">
                       <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                         <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
-                        <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
+                        <button v-if="messdat.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                       </div>
                   </div>
                 </div>
@@ -43,15 +43,14 @@
                     <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                       <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 0)">Удалить</button>
-                      <button class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
+                      <button v-if="messdat.role === 1" class="dropdown-item" type="button" @click="delMsg(messdat.id, 1)">Удалить у всех</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-
-
+{{this.chattextin}}
 
          </div>
 
@@ -79,7 +78,7 @@
         notify: null,
         myid: parseInt(this.myinfo.id),
         idmes: null,
-        delrole: 0
+        delall: 0
     }},
 
     props: ['chattextin','myinfo'],
@@ -91,17 +90,28 @@
   //  },
     methods : {
 
-      delMsg(idmes,delrole) {
+      delMsg(idmes,delall) {
 
-              console.log(idmes + ' ' +delrole)
+              console.log(idmes + ' ' +delall)
         if(idmes) {
-          this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение? ')
+          this.$bvModal.msgBoxConfirm('Вы уверены, что хотите удалить сообщение? '+idmes)
+          .then(value => {
+            //console.log(value);
+            if(value === true) {
+              axios.post('/delmes', { idmes: idmes, delall: delall })
+                .then(response => {
+                                      console.log(response.data)
+                  if(response.data === 1){
+                    console.log('Сообщение удалено')
+                  } else {
+                    this.$bvModal.msgBoxOk('Поздравляю! Вы все сломали. Сообщите об ошибке в осудт')
+                  }
+                  //this.message.push(response.message)
+                })
+            }
+          })
 
-          axios.post('/delmes', { idmes: this.mesid, delrole: this.delrole })
-            .then(response => {
-              //this.message.push(response.message)
-              console.log(response)
-            })
+
               //console.log(response);
        }
 

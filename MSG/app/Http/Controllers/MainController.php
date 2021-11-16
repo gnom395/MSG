@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Messages;
+use App\Models\Message;
 
 use Illuminate\Http\Request;
 
@@ -93,9 +93,14 @@ class MainController extends Controller
 
         if(!is_null($request->idmes)) {
 
-          Message::where('id', $request->idmes)
-            ->update(['name' => $request->name]);
-            return '1';
+          if($request->delall == 0) {
+            $ans1 = Message::where('id', $request->idmes)
+                    ->where('fromUser', Auth::id())
+                    ->update(['deleteMesFrom' => 1]);
+          }
+        //  Message::where('id', $request->idmes)
+        //    ->update(['name' => $request->name]);
+            return $ans1;
         }
         //if(!is_null($request->delrole)) {
 
