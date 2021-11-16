@@ -97,10 +97,13 @@ class MainController extends Controller
             $ans1 = Message::where('id', $request->idmes)
                     ->where('fromUser', Auth::id())
                     ->update(['deleteMesFrom' => 1]);
+            $ans2 = Message::where('id', $request->idmes)
+                   ->where('toUser', Auth::id())
+                   ->update(['deleteMesTo' => 1]);
           }
         //  Message::where('id', $request->idmes)
         //    ->update(['name' => $request->name]);
-            return $ans1;
+            return $ans1 ." ". $ans2;
         }
         //if(!is_null($request->delrole)) {
 
