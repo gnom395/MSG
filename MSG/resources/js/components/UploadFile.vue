@@ -1,10 +1,13 @@
 <template>
+
+
   <div class="container">
     <div class="progress" style="height: 40px">
       <div class="progress-bar" role="progressbar" :style="{ width: fileProgress + '%' }">
         {{ fileCurrent }} %
-        <div>
+      </div>
     </div>
+
     <hr>
 
     <input type="file" name="image" multiple="" change="fileInputChange">
@@ -14,7 +17,7 @@
       <div class="col-sm-6">
         <h3 class="list-center">Файлы в очереди ({{ filesOrder.length }})</h3>
           <ul class="list-group">
-            <li class="list-group-item" v-for in filesOrder>
+            <li class="list-group-item" v-for="file in filesOrder">
               {{ file.name }} : {{ file.type }}
             </li>
           </ul>
@@ -22,17 +25,15 @@
       <div class="col-sm-6">
         <h3 class="list-center">Загруженные файлы ({{ filesFinish.length }})</h3>
           <ul class="list-group">
-            <li class="list-group-item" v-for in filesFinish>
+            <li class="list-group-item" v-for="file in filesFinish">
               {{ file.name }} : {{ file.type }}
             </li>
           </ul>
       </div>
     </div>
+        </div>
 
-      </div>
 
-
-  </div>
 
 </template>
 
@@ -44,6 +45,7 @@
           filesFinish: [],
           fileProgress: 0,
           fileCurrent: ''
+        }
         },
         methods: {
           async fileInputChange(){
@@ -76,7 +78,7 @@
             })
           }
         }
-    }
+
   }
 </script>
 

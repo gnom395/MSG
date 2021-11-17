@@ -49,21 +49,24 @@
 
 </form>
 
-<ListFile @sendfiles="sendfiles"></ListFile>
 
+
+<UploadFile></UploadFile>
 
 </div>
 </template>
 
 <script>
 //  import axios from 'axios';
-  import ListFile from '../components/ListFile';
+  //import ListFile from '../components/ListFile';
   import Spin from '../components/Spin';
+  import UploadFile from '../components/UploadFile';
 
     export default {
       components: {
-        ListFile,
-        Spin
+      //  ListFile,
+        Spin,
+        UploadFile
       },
 
       //props: ['myid','myip','myname'],

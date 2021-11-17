@@ -165,6 +165,7 @@
 
               this.UserPostOnlinefun(true);
 
+
               this.notify = user.name + ' зашел в чат'
                 setTimeout(() => {
                   this.notify = ''
@@ -205,7 +206,7 @@
             window.Echo.join('room.' + this.UserChannel)
             .listenForWhisper('typing', (e) => {
 
-              if(e.name) { 
+              if(e.name) {
                 this.isActive = e;
 
                 if(this.tTimer) clearTimeout(this.tTimer)
