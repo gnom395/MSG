@@ -47,7 +47,7 @@
                 </div>
               </div>
             </div>
-
+<UploadFile></UploadFile>
          </div>
 
 <span v-if="notify">{{ this.notify }}</span>
@@ -57,13 +57,18 @@
 
 <span v-if="this.UserPostOnline"> Сейчас в чате...</span>
 
+
 </div>
 
 </template>
 
 <script>
+  import UploadFile from '../components/UploadFile';
 
   export default {
+    components: {
+        UploadFile
+    },
 
     data() {
       return {

@@ -10,7 +10,7 @@
 
     <hr>
 
-    <input type="file" name="image" multiple="" change="fileInputChange">
+  <!--  <input type="file" name="image" multiple="" @change="fileInputChange">-->
     <hr>
 
     <div class="row">
@@ -47,9 +47,16 @@
           fileCurrent: ''
         }
         },
+        mounted() {
+          /// из form
+          this.$root.$on('fileInputChange', () => {
+            this.fileInputChange()
+          })
+
+        },
         methods: {
           async fileInputChange(){
-            let files = Array.from(event.target.files)
+            let files = Array.from(event.target.files);
 
             this.filesOrder = files.slice()
 
@@ -57,7 +64,8 @@
               await this.uploadFiles(item)
             }
           },
-          async uploadFiles() {
+          async uploadFiles(item) {
+
             let form = new FormData()
             form.append('image', item)
 

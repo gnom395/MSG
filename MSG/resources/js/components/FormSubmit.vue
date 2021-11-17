@@ -44,14 +44,11 @@
       <!--<input type="file" id="file" ref="file" @change="submitFile()">-->
 
       <!-- <button @click="submitFile()">Submit</button> -->
-
+    <input type="file" name="image" multiple="" @change="fileInputChange">
 
 
 </form>
 
-
-
-<UploadFile></UploadFile>
 
 </div>
 </template>
@@ -60,13 +57,13 @@
 //  import axios from 'axios';
   //import ListFile from '../components/ListFile';
   import Spin from '../components/Spin';
-  import UploadFile from '../components/UploadFile';
+//  import UploadFile from '../components/UploadFile';
 
     export default {
       components: {
       //  ListFile,
         Spin,
-        UploadFile
+//        UploadFile
       },
 
       //props: ['myid','myip','myname'],
@@ -108,6 +105,11 @@
 
         },
    methods : {
+     /// загрузка файлов
+     fileInputChange(){
+       /// chatwin
+       this.$root.$emit('fileInputChange')
+     },
 
      /// печатает сообщение
      UserPrintMess(){

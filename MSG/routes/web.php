@@ -60,7 +60,7 @@ Route::get('/login', function(Request $request) {
  Route::post('login', [LoginController::class, 'login']);
  Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-
+ Route::post('/upload', [uploadontroller::class, 'UplodFiles'])->name('upload');
 
 Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers')->middleware('auth');
 Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');
