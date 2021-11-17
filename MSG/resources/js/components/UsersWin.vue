@@ -89,13 +89,25 @@
   mounted() {
     this.loading = true
 
-    //window.Echo.leave('room.' + this.room_id)
-/// слушаем ответ от чата
-    //this.$root.$on('hideUsers', () => {
-    //    this.hideUserChatOn()
-  //})
-
     this.getusers()
+
+      if(this.$route.params.id !== 'undefined') {
+        /// ChatWin
+        window.setTimeout(() => {
+
+          this.$root.$emit('webchatconn',this.$route.params.id);
+
+          //this.usertext
+          //handleClick(showe.id,showe.name,showe.online,showe.last,showe.groups_id)
+          /// загружаем сообщения в чат ChatWin
+          this.$root.$emit('getMessInChat');
+          //this.hideUserChatOff()
+        }, 1000);
+
+        //console.log(this.$route.params.id);
+
+      }
+    //this.$root.$emit('webchatconn',userid)
 
     //window.setInterval(() => {
     //  this.getusers()
@@ -115,6 +127,9 @@
               for (var y = 0; y < this.usertext.length; y++){
                 if (users[i].id == this.usertext[y].id ){
                   this.usertext[y].online = 1;
+                  /// отправляем данные о пользователе в index
+                  //this.$root.$emit('NameUserUp',users[i].id,users[i].name,users[i].online);
+
                   console.log('set online ' + this.usertext[y].id);
                   break;
                 }
@@ -135,7 +150,6 @@
               break;
             }
           }
-
             //this.usertext[user.id].online = 1
             //this.$set(this.usertext, 'online', 1)
             console.log(user.name + ' ' + user.id + ' в сети');
@@ -211,12 +225,24 @@
       .get('/getusers?myid='+this.myinfo.id)
       .then(response => (
         this.usertext = response.data,
-        this.loading = false
+        this.loading = false,
+        this.getUserName(response.data)
       ))
       .catch(error => console.log(error));
 
     },
+    getUserName(usert){
 
+      for (var j = 0; j < usert.length; j++){
+        if (this.$route.params.id == usert[j].id ){
+          //console.log(usert[j]);
+          /// отправляем имя в шапку
+          this.$root.$emit('NameUserUp',usert[j].id,usert[j].name,usert[j].online);
+          //this.UserPostOnlinefun(true);
+            break;
+        }
+      }
+    },
     makeToast(name) {
       this.toastCount++
       this.$bvToast.toast(`This is toast number ${this.toastCount}`, {
@@ -243,7 +269,8 @@
 
       //this.$root.$emit('CleanChat')
       /// отправляем данные о пользователе в index
-      this.$root.$emit('NameUserUp',userid,username,useronline,userlast,group)
+      this.$root.$emit('NameUserUp',userid,username,useronline);
+
       //this.$root.$emit('ScrollDown')
       this.hideUserChatOff()
       //this.useridget = null

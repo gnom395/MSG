@@ -55,9 +55,9 @@
 <br>
 </div>
 
+<span v-if="this.UserPostOnline"> Сейчас в чате...</span>
 
 </div>
-
 
 </template>
 
@@ -67,17 +67,21 @@
 
     data() {
       return {
-        channelall: null,
         oldchannel: null,
-        messPush: null,
+        //messPush: null,
         isActive: false,
         notify: null,
         myid: parseInt(this.myinfo.id),
         idmes: null,
-        delall: 0
+        delall: 0,
+        userOnine: 0,
+        UserPostOnline: false,
+        UserChannel: null,
+        NewMes: null
     }},
 
     props: ['chattextin','myinfo'],
+
 
   //  computed:{
   //    channel(){
@@ -129,40 +133,37 @@
       },
       webchatconn(userid) {
 
-        if(userid < this.myinfo.id) {
-          this.channelall = userid +'.'+ this.myinfo.id
-          //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
-          //this.$parent.$options.methods.chid(this.channelall)
-          // отправляем id канала на FormSubmit
-          //this.$root.$emit('idchannel',this.channelall)
+        this.createIdChannel();
 
-        } else {
-          this.channelall = this.myinfo.id + '.' + userid
-          //this.$eventBus.$emit('roomIdToSubmit',this.channelall)
-          //this.$parent.$options.methods.chid(this.channelall)
-          // отправляем id канала на FormSubmit
-          //this.$root.$emit('idchannel',this.channelall)
-        }
-
-        //console.log(this.channelall);
+        this.UserPostOnlinefun(false);
 
         ////////////// отключаемся
         // если есть открытые каналы закрываем
         if(this.oldchannel !== null) {
           //window.Echo.leaveChannel('room.' + this.oldchannel)
           window.Echo.leave('room.' + this.oldchannel);
-          console.log(this.oldchannel);
+          //console.log(this.oldchannel);
         }
-        this.oldchannel = this.channelall
+        this.oldchannel = this.UserChannel
 
-
-        window.Echo.join('room.' + this.channelall)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        window.Echo.join('room.' + this.UserChannel)
       //  this.channel
             .here((users) => {
                 //  console.log(users);
+
+                  for (var j = 0; j < users.length; j++){
+                    if (this.$route.params.id == users[j].id ){
+                      console.log(this.$route.params.id +' '+users[j].id);
+                      this.UserPostOnlinefun(true);
+                        break;
+                    }
+                  }
             })
             /// пользователь зашел в чат
             .joining((user) => {
+
+              this.UserPostOnlinefun(true);
 
               this.notify = user.name + ' зашел в чат'
                 setTimeout(() => {
@@ -172,6 +173,8 @@
               //console.log(user.name + ' ' + user.id + ' в сети');
             })        /// пользователь вышел из чата
             .leaving((user) => {
+
+              this.UserPostOnlinefun(false);
 
               this.notify = user.name + ' вышел из чата'
                 setTimeout(() => {
@@ -184,11 +187,13 @@
               console.error(error);
             })
             .listen('PresenceChat', ({data}) => {
-//[ { "id": 1498, "to": 12, "from": 13, "message": "454", "attach": "0", "read": 0, "datesend": "09:00 10.11.2021" },
-//    { "message": "555", "to": "12", "ug": "user", "attach": null, "room_id": "12.13" } ]
 
-              this.messPush
-              this.chattextin.push(data)
+              //this.messPush
+              this.chattextin.push(data);
+
+              this.NewMes = data.id;
+              this.NewMesAnswer(this.NewMes);
+
 
               //this.scrollToDown()
               setTimeout(() => this.scrollToDown(), 200);
@@ -197,20 +202,41 @@
             });
 
             /////////// слушаем сокет кто печатает
-            window.Echo.join('room.' + this.oldchannel)
+            window.Echo.join('room.' + this.UserChannel)
             .listenForWhisper('typing', (e) => {
-              this.isActive = e;
 
-              if(this.tTimer) clearTimeout(this.tTimer)
+              if(e.name) { 
+                this.isActive = e;
 
-              this.tTimer = setTimeout(() => {
-                this.isActive = false
-                //this.$root.$emit('isActive', false)
-              },2000);
-              //console.log(e)
+                if(this.tTimer) clearTimeout(this.tTimer)
+
+                this.tTimer = setTimeout(() => {
+                  this.isActive = false
+                  //this.$root.$emit('isActive', false)
+                },2000);
+              }
+              if(e.readmes) {
+                ///  сообщение прочитано
+                for (var z = 0; z < this.chattextin.length; z++){
+                  if (e.readmes == this.chattextin[z].id ){
+                    this.chattextin[z].read = 1;
+                    break;
+                  }
+                }
+              }
+              //console.log(e.readmes)
             });
 
 
+
+      },
+      NewMesAnswer(NewMes){
+
+           window.Echo.join('room.' + this.UserChannel)
+            .whisper('typing',{
+              readmes: NewMes
+            });
+        console.log(this.NewMes);
 
       },
       scrollToDown() {
@@ -226,13 +252,35 @@
         this.$root.$emit('bv::show::modal', 'modal-2', '#btnShow', idmes)
         this.idmes = idmes
       },
+      createIdChannel(){
+        /// делаем id канала
+        if(this.$route.params.id < this.myinfo.id) {
+          this.UserChannel = this.$route.params.id +'.'+ this.myinfo.id
+        } else {
+          this.UserChannel = this.myinfo.id + '.' + this.$route.params.id
+        }
+        //  console.log(this.UserChannel);
+      },
+      UserPostOnlinefun(tf){
+        this.UserPostOnline = tf;
+        //alert('111');
+        this.$root.$emit('UserPostOnline',tf)
+      }
     },
 
   mounted() {
+
+    this.createIdChannel();
+
+
     this.$root.$on('webchatconn', (userid) => {
       //alert('chatwin')
         this.webchatconn(userid);
     })
+    //this.$root.$on('OnlineUser', (userid,username,useronine) => {
+    //    alert('userid');
+        //this.userOnine = userid;
+    //})
   }
 }
 

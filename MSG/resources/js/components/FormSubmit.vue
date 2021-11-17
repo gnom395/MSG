@@ -82,7 +82,8 @@
         attachfile: 0,
         attachfiletmp: '',
         room_id: null,
-        channelid: null
+        channelid: null,
+        UserPostOnline: null
 
       };
     },
@@ -91,16 +92,17 @@
     //},
     mounted() {
 
-      /// получаем id канала из chatwin
-      //this.$root.$on('idchannel', (idchannel) => {
-      //    this.channelid = idchannel
-      //})
+      this.$root.$on('UserPostOnline', (online) => {
 
-      //this.$root.$on('channelid', (channelid) => {
-      //    this.channelid = channelid
-      //    alert(channelid)
-    //  })
-      //console.log(this.$route.params.id);
+        if(online === true) {
+          this.UserPostOnline = 1;
+        }else{
+          this.UserPostOnline = 0;
+        }
+        //alert(online);
+          //this.webchatconn(userid);
+      })
+
         },
    methods : {
 
@@ -208,7 +210,7 @@
                 }
 
                 //console.log(this.channelid);
-            axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid })
+            axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid, online: this.UserPostOnline })
             .then(response => {
                 //this.message = '';
                 //this.message.push(response.message)

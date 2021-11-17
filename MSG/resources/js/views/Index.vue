@@ -14,9 +14,9 @@
 
       <div class="clearfix">
         <p class="font-weight-bold">
-          <b-avatar variant="success" v-if="this.useronline === 1"></b-avatar>
+          <b-avatar variant="success" v-if="this.UserUpOnline === 1"></b-avatar>
           <b-avatar variant="secondary" v-else></b-avatar>
-          {{this.username}}
+          {{this.UserUpName}}
           <b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner>
         </p>
       </div>
@@ -81,7 +81,7 @@ import ChatWin from '../components/ChatWin';
   data() {
 
     return {
-       seen: true,
+      seen: true,
       chattext: '',
     //id: null,
       dataread: null,
@@ -93,6 +93,9 @@ import ChatWin from '../components/ChatWin';
       group: null,
       loadingchat: false,
       idfiles: '',
+      UserUpName: null,
+      UserUpOnline: null,
+      UserUpId: null,
 
       styleObject: {
         opacity: '1.0',
@@ -118,18 +121,6 @@ import ChatWin from '../components/ChatWin';
     },
 
 
-    //startTimerChat(){
-    //  this.polling = setInterval(() => {
-    //    this.getMessage(false)
-    //    console.log('interval')
-    //  }, 10000)
-      //alert('start')
-    //},
-
-    //clearTimerChat(){
-    //  clearInterval(this.polling)
-      //alert('stop')
-    //},
 
 
   //  getNow() {
@@ -182,17 +173,20 @@ import ChatWin from '../components/ChatWin';
         ));
       }
 
-      //if(getparam == true) {
-      //  window.setTimeout(() => {
-              //  this.scrollToDown()
-      //}, 2000)
-      //  alert(getparam)
-    //  }
     }
   },
 
 
     mounted() {
+
+      /// имя сверху
+      this.$root.$on('NameUserUp', (id, name, online) => {
+        console.log(online);
+        this.UserUpId = id;
+        this.UserUpName = name;
+        this.UserUpOnline = online;
+        //alert(nameUser.name);
+      }),
 
       this.$root.$on('getMessInChat', () => {
           this.getMessage()
@@ -202,13 +196,13 @@ import ChatWin from '../components/ChatWin';
           //this.loadingchat = true
       }),
 
-      this.$root.$on('NameUserUp', (userid,username,useronline,userlast,group) => {
-          this.userid = userid,
-          this.username = username,
-          this.useronline = useronline,
-          this.userlast = userlast
-          this.group = group
-      }),
+      //this.$root.$on('NameUserUp', (userid,username,useronline,userlast,group) => {
+      //    this.userid = userid,
+      //    this.username = username,
+      //    this.useronline = useronline,
+      //    this.userlast = userlast
+      //    this.group = group
+      //}),
 
       //window.setInterval(() => {
       //        this.getMessage(false);

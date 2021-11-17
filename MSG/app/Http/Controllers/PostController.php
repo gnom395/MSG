@@ -17,7 +17,6 @@ class PostController extends Controller
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   public function postMessage(Request $request) {
 
-
     if(is_null($request->from)) {
       //$from = $request->session()->get('id');
       $from = Auth::id();
@@ -74,7 +73,11 @@ class PostController extends Controller
          $message->message = $mess;
          $message->attachFile = $attachFile;
          $message->dateIn = NOW();
-         $message->readMes = 0;
+          if($request->online == 1) {
+            $message->readMes = 1;
+          } else {
+            $message->readMes = 0;
+          }
          $message->deleteMesTo = 0;
          $message->deleteMesFrom = 0;
 
