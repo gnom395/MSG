@@ -63,9 +63,7 @@
               //alert('fff');
                 this.filesFinish.splice(index, 1);
 
-                //if(index === 0) {
-                //  this.attachcount = 0;
-                //} else {
+
 
                 for (let key in this.filesFinish) {
                   //alert('111');
@@ -77,10 +75,11 @@
                     } else {
                       this.attachcount = this.attachcount + ',' + this.filesFinish[key]['idbase'];
                     }
-                  //  if(key == 'undefined'){
-                  //    this.attachcount = 0;
-                  //  }
                   }
+                }
+
+                if(this.filesFinish.length == 0) {
+                  this.attachcount = 0;
                 }
               //}
 
