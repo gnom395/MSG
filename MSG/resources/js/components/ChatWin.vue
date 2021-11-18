@@ -50,6 +50,7 @@
 <UploadFile></UploadFile>
          </div>
 
+
 <span v-if="notify">{{ this.notify }}</span>
 <span v-if="isActive">{{ isActive.name }} набирает сообщение...</span>
 <br>
@@ -242,7 +243,7 @@
             .whisper('typing',{
               readmes: NewMes
             });
-        console.log(this.NewMes);
+        //console.log(this.NewMes);
 
       },
       scrollToDown() {

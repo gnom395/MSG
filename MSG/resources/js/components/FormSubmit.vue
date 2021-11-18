@@ -9,7 +9,7 @@
 
       <b-input-group-prepend>
         <label>
-          <img src="/assets/img/attachment.png" class="filebut"><input type="file" style="display: none;"  name="image" id="file" ref="file" @change="submitFile()">
+          <img src="/assets/img/attachment.png" class="filebut"> <input type="file" style="display: none;" name="image" multiple="" @change="fileInputChange">
         </label>
       </b-input-group-prepend>
 
@@ -40,11 +40,11 @@
         </div>
     -->
     <!--<input type="file" id="file" ref="file" @change="submitFile()"/>-->
-      <input type="hidden" v-model="attachfile">
+      <input type="text" v-model="idBaseFile">
       <!--<input type="file" id="file" ref="file" @change="submitFile()">-->
 
       <!-- <button @click="submitFile()">Submit</button> -->
-    <input type="file" name="image" multiple="" @change="fileInputChange">
+
 
 
 </form>
@@ -83,7 +83,9 @@
         attachfiletmp: '',
         room_id: null,
         channelid: null,
-        UserPostOnline: null
+        UserPostOnline: null,
+        filesFinish: [],
+        idBaseFile: 0
 
       };
     },
@@ -92,6 +94,16 @@
     //},
     mounted() {
 
+      //this.$root.$on('filesFinish', (filesFinish) => {
+
+      //  console.log(filesFinish);
+    //  })
+    this.$root.$on('idBaseFile', (idBaseFile) => {
+
+      this.idBaseFile = idBaseFile;
+
+    })
+
       this.$root.$on('UserPostOnline', (online) => {
 
         if(online === true) {
@@ -99,16 +111,25 @@
         }else{
           this.UserPostOnline = 0;
         }
+
+        ///idBaseFile(data){
+        //  alert(data);
+        //},
         //alert(online);
           //this.webchatconn(userid);
       })
 
         },
    methods : {
+
      /// загрузка файлов
      fileInputChange(){
        /// chatwin
        this.$root.$emit('fileInputChange')
+     },
+     /// файлы
+     AttachFile(filesFinish){
+       console.log(filesFinish);
      },
 
      /// печатает сообщение
@@ -120,65 +141,61 @@
            })
      },
 
-     sendfiles(get){
-       this.filesend = get
-       this.attachfile = ''
+  //   sendfiles(get){
+  //     this.filesend = get
+  //     this.attachfile = ''
        //this.attachfiletmp =''
 
-       for (let key in this.filesend) {
-         if(this.filesend.hasOwnProperty(key)){
-           console.log(`${key} : ${this.filesend[key]['id']}`)
-           if(key == 0) {
-             this.attachfile = this.filesend[key]['id'];
-           } else {
-             this.attachfile = this.attachfile + ',' + this.filesend[key]['id'];
-           }
-         }
-       }
+  //     for (let key in this.filesend) {
+  //       if(this.filesend.hasOwnProperty(key)){
+  //         console.log(`${key} : ${this.filesend[key]['id']}`)
+//           if(key == 0) {
+//             this.attachfile = this.filesend[key]['id'];
+  //         } else {
+  //           this.attachfile = this.attachfile + ',' + this.filesend[key]['id'];
+  //         }
+  //       }
+  //     }
        //if(this.attachfile == '') {
       //   this.attachfile = this.attachfiletmp;
        //} else {
         // this.attachfile = this.attachfile + ',' + this.attachfiletmp;
        //}
 
+  //   },
+//     submitFile(){
 
-
-     },
-     submitFile(){
-
-      this.file = this.$refs.file.files[0];
+//      this.file = this.$refs.file.files[0];
 
 
       //axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug })
-       let formData = new FormData();
-       formData.append( 'file', this.file );
-       formData.append( 'fromid', this.myinfo.id );
-       formData.append( 'attach', this.filesend );
-       axios.post( '/postfile',
-        formData,
-          {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-          }
+//       let formData = new FormData();
+//       formData.append( 'file', this.file );
+//       formData.append( 'fromid', this.myinfo.id );
+//       formData.append( 'attach', this.filesend );
+//       axios.post( '/postfile',
+//        formData,
+//          {
+//            headers: {
+//                'Content-Type': 'multipart/form-data'
+//            }
+//          }
 
-        ).then(response => {
-            console.log('SUCCESS!!');
-            this.usertext = response.data
+//        ).then(response => {
+//            console.log('SUCCESS!!');
+//            this.usertext = response.data
 
-            this.listfile.push({
-              id: response.data.id,
-              title: this.file.name
-            }),
-            this.$root.$emit('AddFileList',response.data.filename,response.data.id)
-
-
-          })
-        .catch(error => console.log(error))
+//            this.listfile.push({
+//              id: response.data.id,
+//              title: this.file.name
+//            }),
+//            this.$root.$emit('AddFileList',response.data.filename,response.data.id)
 
 
+    //      })
+  //      .catch(error => console.log(error))
 
-      },
+//      },
 
       handleFileUpload(){
         this.file = this.$refs.file.files[0];
@@ -215,7 +232,7 @@
                 }
 
                 //console.log(this.channelid);
-            axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.attachfile, datesend: timenow, read: 2 , room_id: this.channelid, online: this.UserPostOnline })
+            axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.idBaseFile, datesend: timenow, read: 2 , room_id: this.channelid, online: this.UserPostOnline })
             .then(response => {
                 //this.message = '';
                 //this.message.push(response.message)
