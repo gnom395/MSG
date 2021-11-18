@@ -1,15 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\getUsersController;
 use App\Http\Controllers\getMessageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\uploadcontroller;
+
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Auth\LoginController;
+
 use App\Models\User;
 /*
 
@@ -60,7 +64,7 @@ Route::get('/login', function(Request $request) {
  Route::post('login', [LoginController::class, 'login']);
  Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
- Route::post('/upload', [uploadontroller::class, 'UplodFiles'])->name('upload');
+ Route::post('/upload', [uploadcontroller::class, 'UplodFiles'])->name('upload');
 
 Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers')->middleware('auth');
 Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');

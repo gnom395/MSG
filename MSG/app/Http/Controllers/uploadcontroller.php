@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 class uploadcontroller extends Controller
 {
       public function UplodFiles(Request $request) {
-        return 1;
+        $path = $request->file('file')->store('avatars');
+
+        return $path;
       }
 }

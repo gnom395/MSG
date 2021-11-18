@@ -67,7 +67,7 @@
           async uploadFiles(item) {
 
             let form = new FormData()
-            form.append('image', item)
+            form.append('file', item)
 
             await axios.post('/upload', form, {
                 onUploadProgress: (itemUpload) => {
@@ -76,12 +76,19 @@
                 }
             })
             .then(response => {
-                this.fileProgress = 0;
-                this.fileCurrent = '';
-                this.filesFinish.push(item);
-                this.filesOrder.splice(item, 1);
+              console.log(response);
+                if(response.status == 200) {
+                  this.fileProgress = 0;
+                  this.fileCurrent = '';
+                  this.filesFinish.push(item);
+                  this.filesOrder.splice(item, 1);
+                } else {
+                  alert('Ошибка');
+                }
+
             })
             .catch(error => {
+              alert('Ошибка. Файл слишком большой.');
               console.log(error);
             })
           }
