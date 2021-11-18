@@ -1,7 +1,7 @@
 <template>
 
 
-  <div class="container">
+  <div class="container" v-if="showForm">
     <div class="progress" style="height: 40px">
       <div class="progress-bar" role="progressbar" :style="{ width: fileProgress + '%' }">
         {{ fileCurrent }} %
@@ -44,7 +44,8 @@
           filesOrder: [],
           filesFinish: [],
           fileProgress: 0,
-          fileCurrent: ''
+          fileCurrent: '',
+          showForm: false
         }
         },
         mounted() {
@@ -56,6 +57,7 @@
         },
         methods: {
           async fileInputChange(){
+            this.showForm = true;
             let files = Array.from(event.target.files);
 
             this.filesOrder = files.slice()
