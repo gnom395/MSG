@@ -14,7 +14,7 @@
 
 
     <div>
-      <div v-if="filesOrder.length !== 0">
+      <div v-if="filesOrder.length != 0">
         <p class="list-center">Файлы в очереди ({{ filesOrder.length }})</p>
           <ul class="list-group">
             <li class="list-group-item" v-for="file in filesOrder">
@@ -22,7 +22,7 @@
             </li>
           </ul>
       </div>
-      <div>
+      <div v-if="filesFinish.length != 0">
         <p class="list-center">Загруженные файлы ({{ filesFinish.length }})</p>
           <ul class="list-group">
             <li class="list-group-item" v-for="(file, index) in filesFinish">
@@ -31,7 +31,7 @@
           </ul>
       </div>
     </div>
-{{this.attachcount}}
+
         </div>
 
 
@@ -102,7 +102,7 @@
               //this.$emit('sendfiles',this.todos)
             },
           async fileInputChange(){
-            this.showForm = true;
+            //this.showForm = true;
             this.showProgress = true;
 
             let files = Array.from(event.target.files);
@@ -121,6 +121,8 @@
             let form = new FormData()
             form.append('file', item)
 
+            this.showForm = true;
+            this.showProgress = true;
 
             /// это для подсчета файлов
             //let countf = this.filesFinish.length = 1;

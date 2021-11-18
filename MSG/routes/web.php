@@ -7,6 +7,7 @@ use App\Http\Controllers\getUsersController;
 use App\Http\Controllers\getMessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\uploadcontroller;
+use App\Http\Controllers\Auth\LoginController;
 
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;

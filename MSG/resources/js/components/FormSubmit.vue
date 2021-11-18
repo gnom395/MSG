@@ -40,7 +40,7 @@
         </div>
     -->
     <!--<input type="file" id="file" ref="file" @change="submitFile()"/>-->
-      <input type="text" v-model="idBaseFile">
+      <input type="hidden" v-model="idBaseFile">
       <!--<input type="file" id="file" ref="file" @change="submitFile()">-->
 
       <!-- <button @click="submitFile()">Submit</button> -->
