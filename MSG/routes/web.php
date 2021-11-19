@@ -8,6 +8,7 @@ use App\Http\Controllers\getMessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\uploadcontroller;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\GetFileListController;
 
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
@@ -65,7 +66,9 @@ Route::get('/login', function(Request $request) {
  Route::post('login', [LoginController::class, 'login']);
  Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
- Route::post('/upload', [uploadcontroller::class, 'UplodFiles'])->name('upload');
+
+Route::post('/getnamefiles', [GetFileListController::class, 'GetFileList'])->name('getnamefiles')->middleware('auth');
+Route::post('/upload', [uploadcontroller::class, 'UplodFiles'])->name('upload')->middleware('auth');
 
 Route::get('/getusers', [getUsersController::class, 'getUsers'])->name('getusers')->middleware('auth');
 Route::get('/getmessages', [getMessageController ::class, 'getMessage'])->name('getmessages')->middleware('auth');

@@ -83,12 +83,13 @@ class PostController extends Controller
 
          $message->save();
 
-         $messageNew = new MessagesNew;
-         $messageNew->fromUser = $from;
-         $messageNew->toUser = $to;
-         $messageNew->toGroup = 0;
-
-         $messageNew->save();
+         if($request->online == 0) {
+           $messageNew = new MessagesNew;
+           $messageNew->fromUser = $from;
+           $messageNew->toUser = $to;
+           $messageNew->toGroup = 0;
+           $messageNew->save();
+          }
 
         $newPrivarMes = array(
              'id' => $message->id,

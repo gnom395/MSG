@@ -52,9 +52,6 @@
   </div>
 
 
-<WinFiles :idfiles="idfiles"></WinFiles>
-
-
 
 </div>
 
@@ -66,7 +63,6 @@
 import moment from 'moment'
 import UsersWin from '../components/UsersWin'
 import FormSubmit from '../components/FormSubmit'
-import WinFiles from '../components/WinFiles';
 import ChatWin from '../components/ChatWin';
 
 
@@ -74,7 +70,6 @@ import ChatWin from '../components/ChatWin';
     components: {
       UsersWin,
       FormSubmit,
-      WinFiles,
       ChatWin
     },
       props: ['myinfo'],
@@ -92,7 +87,7 @@ import ChatWin from '../components/ChatWin';
       userlast: null,
       group: null,
       loadingchat: false,
-      idfiles: '',
+      idfiles: null,
       UserUpName: null,
       UserUpOnline: null,
       UserUpId: null,

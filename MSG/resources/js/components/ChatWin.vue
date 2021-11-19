@@ -17,7 +17,7 @@
               <div class="sendmes">
                 <div class="row">
                   <div class="col" style="text-align: left">{{ messdat.message }}<br>
-                    <div v-if="messdat.attach != 0"><b-button  @click="showModalFile(messdat.attach)">Вложенные файлы</b-button></div>
+                    <div v-if="messdat.attach != 0"><i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i></div>
                   </div>
                   <div class="w-100"></div>
                   <div class="col text-right">
@@ -35,7 +35,9 @@
               </div>
               <div class="readmes" v-else>
                 <div class="row">
-                  <div class="col">{{ messdat.message }}<br></div>
+                  <div class="col">{{ messdat.message }}<br>
+                    <div v-if="messdat.attach != 0"><i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i></div>
+                  </div>
                   <div class="w-100"></div>
                   <div class="col text-right">
                     <small id="dropdownMenu" data-toggle="dropdown" style="cursor:pointer"> {{ messdat.datesend }} </small>
@@ -47,36 +49,37 @@
                 </div>
               </div>
             </div>
+
 <UploadFile></UploadFile>
          </div>
 
 
-<span v-if="notify">{{ this.notify }}</span>
 <span v-if="isActive">{{ isActive.name }} набирает сообщение...</span>
 <br>
 </div>
 
-<span v-if="this.UserPostOnline"> Сейчас в чате...</span>
+<span v-if="this.UserPostOnline"> Сейчас в чате</span>
 
-
+<WinFiles ref="loadListFiles"></WinFiles>
 </div>
 
 </template>
 
 <script>
   import UploadFile from '../components/UploadFile';
+  import WinFiles from '../components/WinFiles';
 
   export default {
     components: {
-        UploadFile
+        UploadFile,
+        WinFiles
     },
 
     data() {
       return {
         oldchannel: null,
-        //messPush: null,
+        idfiles: null,
         isActive: false,
-        notify: null,
         myid: parseInt(this.myinfo.id),
         idmes: null,
         delall: 0,
@@ -171,11 +174,11 @@
 
               this.UserPostOnlinefun(true);
 
-
-              this.notify = user.name + ' зашел в чат'
-                setTimeout(() => {
-                  this.notify = ''
-                },4000);
+              this.makeToast('Оповещение',user.name + ' зашел в чат');
+              //this.notify = user.name + ' зашел в чат'
+              //  setTimeout(() => {
+              //    this.notify = ''
+              //  },4000);
 
               //console.log(user.name + ' ' + user.id + ' в сети');
             })        /// пользователь вышел из чата
@@ -183,10 +186,11 @@
 
               this.UserPostOnlinefun(false);
 
-              this.notify = user.name + ' вышел из чата'
-                setTimeout(() => {
-                  this.notify = ''
-                },4000);
+              this.makeToast('Оповещение',user.name + ' вышел из чата');
+              //this.notify = user.name + ' вышел из чата'
+              //  setTimeout(() => {
+              //    this.notify = ''
+              //  },4000);
 
               //console.log(user.name + ' не в сети');
             })
@@ -237,6 +241,14 @@
 
 
       },
+      makeToast(title,text) {
+        this.toastCount++
+        this.$bvToast.toast(text, {
+          title: title,
+          autoHideDelay: 5000,
+          appendToast: false
+        })
+      },
       NewMesAnswer(NewMes){
 
            window.Echo.join('room.' + this.UserChannel)
@@ -253,7 +265,10 @@
       },
       showModalFile(idfiles) {
         this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
-        this.idfiles = idfiles
+
+        /// вызываем функцию из дочернего компонента
+        this.$refs.loadListFiles.loadListFiles(idfiles);
+        //this.idfiles = idfiles
       },
       delMes(idmes) {
         this.$root.$emit('bv::show::modal', 'modal-2', '#btnShow', idmes)
@@ -341,6 +356,16 @@ height: 100%;
   position: relative;
   display: inline-block;
   font-size: 16px;
+}
+.fileAttach {
+  font-size: 30px;
+  cursor: pointer;
+}
+.fileAttach:active {
+  opacity: .8;
+}
+.fileAttach:Hover {
+  opacity: .4;
 }
 
 </style>

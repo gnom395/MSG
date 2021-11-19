@@ -53,7 +53,11 @@
         mounted() {
           /// из form
           this.$root.$on('fileInputChange', () => {
-            this.fileInputChange()
+            this.fileInputChange();
+          })
+          /// из form
+          this.$root.$on('ListFileClean', () => {
+            this.filesFinish = [];
           })
 
         },
@@ -69,7 +73,7 @@
                   //alert('111');
                   //console.log(this.filesFinish.hasOwnProperty(key));
                   if(this.filesFinish.hasOwnProperty(key)){
-                    console.log(`${key} : ${this.filesFinish[key]['idbase']}`)
+                    //console.log(`${key} : ${this.filesFinish[key]['idbase']}`)
                     if(key == 0) {
                       this.attachcount = this.filesFinish[key]['idbase'];
                     } else {
