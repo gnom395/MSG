@@ -13,12 +13,32 @@
     <div class="col my-1">
 
       <div class="clearfix">
-        <p class="font-weight-bold">
-          <b-avatar variant="success" v-if="this.UserUpOnline === 1"></b-avatar>
-          <b-avatar variant="secondary" v-else></b-avatar>
-          {{this.UserUpName}}
+
+        <div class="row">
+          <div class="col-2 border">
+             <b-avatar variant="success" v-if="this.UserUpOnline === 1"></b-avatar>
+            <b-avatar variant="secondary" v-else></b-avatar>
+          </div>
+          <div class="col border">
+            <div class="row">
+              <div class="col"><span class="font-weight-bold">{{this.UserUpName}}</span>
+                <span v-if="this.UserPostOnline"> Сейчас в чате</span>
+              </div>
+              <div class="w-100"></div>
+              <div class="col"><span v-if="isActive">{{ isActive.name }} набирает сообщение...</span></div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
           <b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner>
-        </p>
+
+
+
+
       </div>
 
 
@@ -91,6 +111,8 @@ import ChatWin from '../components/ChatWin';
       UserUpName: null,
       UserUpOnline: null,
       UserUpId: null,
+      isActive: false,
+      UserPostOnline: false,
 
       styleObject: {
         opacity: '1.0',
@@ -173,6 +195,17 @@ import ChatWin from '../components/ChatWin';
 
 
     mounted() {
+
+
+      // пользователь в чате
+      this.$root.$on('UserPostOnline', (param) => {
+        this.UserPostOnline = param;
+      })
+
+      // печатает сообщение
+      this.$root.$on('PrintMess', (param) => {
+        this.isActive = param;
+      })
 
       /// имя сверху
       this.$root.$on('NameUserUp', (id, name, online) => {

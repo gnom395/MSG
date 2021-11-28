@@ -54,11 +54,11 @@
          </div>
 
 
-<span v-if="isActive">{{ isActive.name }} набирает сообщение...</span>
+
 <br>
 </div>
 
-<span v-if="this.UserPostOnline"> Сейчас в чате</span>
+
 
 <WinFiles ref="loadListFiles"></WinFiles>
 </div>
@@ -217,12 +217,14 @@
             .listenForWhisper('typing', (e) => {
 
               if(e.name) {
-                this.isActive = e;
+                //this.isActive = e;
+                this.$root.$emit('PrintMess', true);
 
                 if(this.tTimer) clearTimeout(this.tTimer)
 
                 this.tTimer = setTimeout(() => {
-                  this.isActive = false
+                //  this.isActive = false
+                this.$root.$emit('PrintMess', false);
                   //this.$root.$emit('isActive', false)
                 },2000);
               }
@@ -287,6 +289,7 @@
         this.UserPostOnline = tf;
         //alert('111');
         this.$root.$emit('UserPostOnline',tf)
+
       }
     },
 
