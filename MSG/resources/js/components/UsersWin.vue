@@ -146,6 +146,9 @@
           for (var i = 0; i < this.usertext.length; i++){
             if (user.id == this.usertext[i].id ){
               this.usertext[i].online = 1;
+
+              /// отправляем статус онлайн в шапку
+              //this.$root.$emit('UserStateOnline',1)
               //console.log(this.usertext[i].online);
               break;
             }

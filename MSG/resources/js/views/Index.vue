@@ -1,5 +1,5 @@
 <template>
-<div>
+
 
 
 
@@ -15,26 +15,25 @@
       <div class="clearfix">
 
         <div class="row">
-          <div class="col-2 border">
+          <div class="col" style="flex: 0 0 70px;">
              <b-avatar variant="success" v-if="this.UserUpOnline === 1"></b-avatar>
             <b-avatar variant="secondary" v-else></b-avatar>
           </div>
-          <div class="col border">
+          <div class="col">
             <div class="row">
-              <div class="col"><span class="font-weight-bold">{{this.UserUpName}}</span>
-                <span v-if="this.UserPostOnline"> Сейчас в чате</span>
-              </div>
+              <div class="col font-weight-bold">{{this.UserUpName}}</div>
               <div class="w-100"></div>
-              <div class="col"><span v-if="isActive">{{ isActive.name }} набирает сообщение...</span></div>
+              <div class="col">
+                <span v-if="this.isActive">{{ isActive.name }} набирает сообщение...</span>
+                <span v-else-if="this.UserPostOnline"> Сейчас в чате</span>
+                <span v-else></span>
+              </div>
             </div>
           </div>
+          <div class="col"><b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner></div>
         </div>
 
 
-
-
-
-          <b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner>
 
 
 
@@ -73,7 +72,6 @@
 
 
 
-</div>
 
 
 </template>
@@ -195,7 +193,6 @@ import ChatWin from '../components/ChatWin';
 
 
     mounted() {
-
 
       // пользователь в чате
       this.$root.$on('UserPostOnline', (param) => {

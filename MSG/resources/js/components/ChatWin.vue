@@ -174,7 +174,7 @@
 
               this.UserPostOnlinefun(true);
 
-              this.makeToast('Оповещение',user.name + ' зашел в чат');
+              //this.makeToast('Оповещение',user.name + ' зашел в чат');
               //this.notify = user.name + ' зашел в чат'
               //  setTimeout(() => {
               //    this.notify = ''
@@ -186,7 +186,7 @@
 
               this.UserPostOnlinefun(false);
 
-              this.makeToast('Оповещение',user.name + ' вышел из чата');
+              //this.makeToast('Оповещение',user.name + ' вышел из чата');
               //this.notify = user.name + ' вышел из чата'
               //  setTimeout(() => {
               //    this.notify = ''
