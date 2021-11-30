@@ -34,7 +34,7 @@
         <div v-if="showe.groups_id === useridget" v-on="handleClickLoad(showe.id,showe.name,showe.online,showe.last,showe.groups_id)"></div>
       </div>
 
-    <router-link v-if="showe.is_group === 1" :to="'/group/' + showe.groups_id" class="list-group-item list-group-item-action active" title='Сообщение всем в группе'>
+    <router-link v-if="showe.is_group === 1" :to="'/group/' + showe.gid" class="list-group-item list-group-item-action active" title='Сообщение всем в группе'>
       <b>{{ showe.name }}</b>
     </router-link>
     <router-link v-else :to="'/user/' + showe.id" class="list-group-item list-group-item-action">

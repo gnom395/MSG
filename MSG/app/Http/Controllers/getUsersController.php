@@ -62,9 +62,9 @@ class getUsersController extends Controller
 
           if($grcount != $row->groups_id) {
             $successAr[] = [
-              'id' => $row->id,
+              'gid' => $row->groups_id,
               'name' => $row->groups,
-              'groups_id' => $row->groups_id,
+              //'groups_id' => $row->groups_id,
               'is_group' => 1
             ];
           }
