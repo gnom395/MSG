@@ -100,15 +100,15 @@
           /// ставим статус онлайн все кто в сети
           for (var i = 0; i < users.length; i++){
 
-              console.log('user here' + users[i].id);
+              //console.log('user here' + users[i].id);
 
               for (var y = 0; y < this.usertext.length; y++){
-                if (users[i].id == this.usertext[y].id ){
+                if (users[i].id == this.usertext[y].id && this.usertext[y].is_group == 0){
                   this.usertext[y].online = 1;
                   /// отправляем данные о пользователе в index
                   //this.$root.$emit('NameUserUp',users[i].id,users[i].name,users[i].online);
 
-                  console.log('set online ' + this.usertext[y].id);
+                  //console.log('set online ' + this.usertext[y].id);
                   break;
                 }
               }
@@ -122,7 +122,7 @@
 
           /// ставим статус онлайн
           for (var i = 0; i < this.usertext.length; i++){
-            if (user.id == this.usertext[i].id ){
+            if (user.id == this.usertext[i].id && this.usertext[i].is_group == 0){
               this.usertext[i].online = 1;
 
               /// отправляем статус онлайн в шапку
@@ -133,21 +133,21 @@
           }
             //this.usertext[user.id].online = 1
             //this.$set(this.usertext, 'online', 1)
-            console.log(user.name + ' ' + user.id + ' в сети');
+            //console.log(user.name + ' ' + user.id + ' в сети');
         })
         /// пользователь вышел из чата
         .leaving((user) => {
 
           /// ставим статус офлайн
           for (var i = 0; i < this.usertext.length; i++){
-            if (user.id == this.usertext[i].id ){
+            if (user.id == this.usertext[i].id && this.usertext[i].is_group == 0){
               this.usertext[i].online = 0;
               //console.log(this.usertext[i].online);
               break;
             }
           }
 
-            console.log(user.name + ' не в сети');
+            //console.log(user.name + ' не в сети');
         })
         .error((error) => {
             console.error(error);
@@ -157,7 +157,7 @@
           // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
 
           //console.log(data.to +' '+ this.myinfo.id +' '+data.from + ' '+ this.$route.params.id)
-
+          //console.log(data);
           if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
 
             /// если новые письма уже есть

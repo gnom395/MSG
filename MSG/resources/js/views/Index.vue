@@ -196,7 +196,7 @@ import ChatWin from '../components/ChatWin';
 
         } else {
           /// тут сообщения для группы
-          alert('это группа' + this.$route.params.ug);
+          this.getMessage();
         }
 
       } else {

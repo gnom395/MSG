@@ -150,6 +150,7 @@ class PostController extends Controller
 
 
 
+
          $messageGrp = UsersInGroup::where('id_group',$to)->get();
 
       //  dd($request->all());
@@ -195,8 +196,19 @@ class PostController extends Controller
                   'from' => $message->fromUser,
                   'attach' => $attachFile
                 );
-              return json_encode($successAr);
 
+              //// шлем на сокет
+              $newMes5 = array(
+                  'room_id' => 999,
+                  'status' => 1,
+                  'to' => $message->toUser,
+                  'from' => $message->fromUser,
+                  'name' => $username->name,
+                  'newmess' => 1
+                );
+              PresenceChat::dispatch($newMes5);
+
+              return json_encode($successAr);
             }
 
               //return MainController::answerJson('response','4','add');

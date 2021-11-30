@@ -69,7 +69,8 @@
         channelid: null,
         UserPostOnline: null,
         filesFinish: [],
-        idBaseFile: 0
+        idBaseFile: 0,
+        chantype: null
 
       };
     },
@@ -137,10 +138,15 @@
         const timenow = today.getHours() + ":" + today.getMinutes();
 
         // делаем channelid
-          if(this.$route.params.id < this.myinfo.id) {
-            this.channelid = this.$route.params.id +'.'+ this.myinfo.id
+          if(this.$route.params.ug == 'user') {
+            this.chantype = 'user';
           } else {
-            this.channelid = this.myinfo.id + '.' + this.$route.params.id
+            this.chantype = 'group';
+          }
+          if(this.$route.params.id < this.myinfo.id) {
+            this.channelid = this.chantype + '.' + this.$route.params.id +'.'+ this.myinfo.id
+          } else {
+            this.channelid = this.chantype + '.' + this.myinfo.id + '.' + this.$route.params.id
           }
 
           axios.post('/postmessage', { to: this.$route.params.id, from: this.myinfo.id, message: this.message, ug: this.$route.params.ug, attach: this.idBaseFile, datesend: timenow, read: 2 , room_id: this.channelid, online: this.UserPostOnline })

@@ -80,8 +80,15 @@ Route::get('/login', function(Request $request) {
           $User->role = 0;
           $User->save();
 
+          /// добавили в группу все
           $Users_in_group = new UsersInGroup;
           $Users_in_group->id_group = 1;
+          $Users_in_group->id_user = $User->id;
+          $Users_in_group->save();
+
+          /// добавили в группу подразделения
+          $Users_in_group = new UsersInGroup;
+          $Users_in_group->id_group = $Group->id;
           $Users_in_group->id_user = $User->id;
           $Users_in_group->save();
 

@@ -290,15 +290,11 @@
       },
       createIdChannel(){
         /// делаем id канала
-          if(this.$route.params.ug == 'user') {
-            this.chantype = 'user';
-          } else {
-            this.chantype = 'group';
-          }
+
         if(this.$route.params.id < this.myinfo.id) {
-          this.UserChannel = this.chantype + '.' + this.$route.params.id +'.'+ this.myinfo.id
+          this.UserChannel = this.$route.params.id +'.'+ this.myinfo.id
         } else {
-          this.UserChannel = this.chantype + '.' + this.myinfo.id + '.' + this.$route.params.id
+          this.UserChannel = this.myinfo.id + '.' + this.$route.params.id
         }
         //  console.log(this.UserChannel);
       },
@@ -316,11 +312,7 @@
 
     /// если зашли по url
     if(typeof(this.$route.params.id) !== 'undefined' ) {
-      if(this.$route.params.ug == 'user') {
         this.webchatconn(this.$route.params.id);
-      }else {
-        this.webchatconn(this.$route.params.id);
-      }
     }
 
     this.$root.$on('webchatconn', (userid) => {

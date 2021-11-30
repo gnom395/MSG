@@ -27,14 +27,17 @@ class getMessageController extends Controller
       $from = $request->from;
     }
 
-
-    ///  получаем сообщения
-    $messages = DB::select('SELECT * FROM messages WHERE (fromUser = :from1 and toUser = :to1 and deleteMesFrom = 0) or (toUser = :from2 and :to2=(case when fromUser <>0 then  fromUser else toGroup end) and deleteMesTo = 0) ORDER BY id DESC LIMIT 30', ['from1' => $from, 'to1' => $to, 'from2' => $from, 'to2' => $to]);
-
+    if($request->ug == 'user') {
+      ///  получаем сообщения
+      $messages = DB::select('SELECT * FROM messages WHERE (fromUser = :from1 and toUser = :to1 and deleteMesFrom = 0) or (toUser = :from2 and :to2=(case when fromUser <>0 then  fromUser else toGroup end) and deleteMesTo = 0) ORDER BY id DESC LIMIT 30', ['from1' => $from, 'to1' => $to, 'from2' => $from, 'to2' => $to]);
+    } else {
+        /// сообщения для группы
+      $messages = DB::select('SELECT * FROM messages WHERE fromUser = :from1 and toUser = :to1 and toGroup = 1 and deleteMesFrom = 0 and deleteMesTo = 0 ORDER BY id DESC LIMIT 30', ['from1' => $from, 'to1' => $to]);
+    }
     /// если нет сообщений
     if (empty($messages)) {
       $response[] = array(
-        'success' => 'Нет сообщений'
+        'success' => 0
       );
       return json_encode($response);
 
