@@ -1,8 +1,6 @@
 <template>
 
 
-
-
   <div class="row border">
 <!-- d-none d-md-block  d-none d-md-block-->
     <div class="col-md-4 my-1">
@@ -15,7 +13,7 @@
       <div class="clearfix">
 
         <div class="row">
-          <div class="col" style="flex: 0 0 70px;">
+          <div class="col" style="flex: 0 0 70px;" v-if="!this.showalert">
              <b-avatar variant="success" v-if="this.UserUpOnline === 1"></b-avatar>
             <b-avatar variant="secondary" v-else></b-avatar>
           </div>
@@ -34,10 +32,6 @@
         </div>
 
 
-
-
-
-
       </div>
 
 
@@ -52,10 +46,9 @@
       ></UsersWin>
     </div>
 
-
-
     <div class="col">
 
+      <b-alert v-if="this.showalert" show variant="success">Добро пожаловать. Слева находяться контакты</b-alert>
       <div v-bind:style="styleObject">
         <ChatWin
         :chattextin="chattext"
@@ -69,9 +62,6 @@
       ></FormSubmit>
     </div>
   </div>
-
-
-
 
 
 </template>
@@ -111,6 +101,7 @@ import ChatWin from '../components/ChatWin';
       UserUpId: null,
       isActive: false,
       UserPostOnline: false,
+      showalert: false,
 
       styleObject: {
         opacity: '1.0',
@@ -194,15 +185,42 @@ import ChatWin from '../components/ChatWin';
 
     mounted() {
 
+      /// если есть id пользователя
+      if(typeof this.$route.params.id !== 'undefined') {
+
+        // проверяем группа или пользователь
+        if(this.$route.params.ug == 'user') {
+          // получаем сообщения пользователя
+          this.showalert = false;
+          this.getMessage();
+
+        } else {
+          /// тут сообщения для группы
+          alert('это группа' + this.$route.params.ug);
+        }
+
+      } else {
+        /// зашли на главную
+        this.showalert = true;
+      }
+
+      // статус онлайн
+      this.$root.$on('UserStateOnline', (iduser,status) => {
+        // проверяем есть наш ли это пользователь
+        if(this.UserUpId == iduser){
+          this.UserUpOnline = status;
+        }
+      }),
+
       // пользователь в чате
       this.$root.$on('UserPostOnline', (param) => {
         this.UserPostOnline = param;
-      })
+      }),
 
       // печатает сообщение
       this.$root.$on('PrintMess', (param) => {
         this.isActive = param;
-      })
+      }),
 
       /// имя сверху
       this.$root.$on('NameUserUp', (id, name, online) => {
@@ -218,26 +236,10 @@ import ChatWin from '../components/ChatWin';
           //this.loadUserInfo();
           this.usertext = ''
           this.hideChatOff()
-          //this.loadingchat = true
-      }),
+          this.showalert = false;
+      })
 
-      //this.$root.$on('NameUserUp', (userid,username,useronline,userlast,group) => {
-      //    this.userid = userid,
-      //    this.username = username,
-      //    this.useronline = useronline,
-      //    this.userlast = userlast
-      //    this.group = group
-      //}),
-
-      //window.setInterval(() => {
-      //        this.getMessage(false);
-      //}, 10000)
-
-      //this.startTimerChat()
-      this.getMessage()
-
-
-    },
+    }
   //  beforeDestroy () {
 	//     clearInterval(this.polling)
   //  }

@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\User;
+use App\Models\Group;
+use App\Models\UsersInGroup;
 /*
 
 
@@ -47,14 +49,45 @@ Route::get('/login', function(Request $request) {
 
   $ip = $request->ip();
   $ip_parts = explode (".", $ip);
-  $ip_node = $ip_parts[0].".".$ip_parts[1];
+  $ip_node = $ip_parts[0].".".$ip_parts[1].".";
+  $ip_node_full = $ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".";
 
-    if($ip_node == '192.168') {
+  /// если из нашей сети то регестрируем авто вход
+    if($ip_node == '192.168.') {
+      // если ip есть в базе
       $User = User::where('ip', $ip)->first();
       if(!is_null($User)) {
         // есть в базе
         Auth::loginUsingId($User->id, $remember = true);
         return view('index', ['user' => Auth::user() ]);
+      } else {
+        /// если нет то регестрируем
+        /// проверяем есть ли группа по ноде
+        $Group = Group::where('node', $ip_node_full)->first();
+                  //  dd($Group);
+          if(is_null($Group)) {
+            // если нет группы то выкидываем
+            return redirect()->route('error');
+            exit;
+          }
+          $User = new User;
+          $User->name = '';
+          $User->created_at = NOW();
+          $User->updated_at = NOW();
+          $User->ip = $ip;
+          $User->dateOnline = NOW();
+          $User->id_office = $Group->id;
+          $User->role = 0;
+          $User->save();
+
+          $Users_in_group = new UsersInGroup;
+          $Users_in_group->id_group = 1;
+          $Users_in_group->id_user = $User->id;
+          $Users_in_group->save();
+
+          Auth::loginUsingId($User->id, $remember = true);
+          //return view('changename', ['user' => Auth::user() ]);
+          return redirect()->route('changename');
       }
     }
 
@@ -63,6 +96,9 @@ Route::get('/login', function(Request $request) {
   ///}
   return view('auth/login');
 })->name('login');
+
+Route::view('error', 'error')->name('error');
+
  Route::post('login', [LoginController::class, 'login']);
  Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 

@@ -54,7 +54,7 @@
   </div>
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
 
-
+{{usertext}}
 </div>
 
 </template>
@@ -89,29 +89,7 @@
   mounted() {
     this.loading = true
 
-    this.getusers()
-
-      if(this.$route.params.id !== 'undefined') {
-        /// ChatWin
-        window.setTimeout(() => {
-
-          this.$root.$emit('webchatconn',this.$route.params.id);
-
-          //this.usertext
-          //handleClick(showe.id,showe.name,showe.online,showe.last,showe.groups_id)
-          /// загружаем сообщения в чат ChatWin
-          this.$root.$emit('getMessInChat');
-          //this.hideUserChatOff()
-        }, 1000);
-
-        //console.log(this.$route.params.id);
-
-      }
-    //this.$root.$emit('webchatconn',userid)
-
-    //window.setInterval(() => {
-    //  this.getusers()
-    //}, 15000)
+    this.getusers();
 
     this.channel
         .here((users) => {
@@ -148,7 +126,7 @@
               this.usertext[i].online = 1;
 
               /// отправляем статус онлайн в шапку
-              //this.$root.$emit('UserStateOnline',1)
+              this.$root.$emit('UserStateOnline',this.usertext[i].id,this.usertext[i].online)
               //console.log(this.usertext[i].online);
               break;
             }

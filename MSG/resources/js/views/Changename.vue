@@ -19,7 +19,7 @@
 
              <div class="col-md-6">
                <input  type="text" class="form-control" v-model="email" required autocomplete="email">
-                  <small class="form-text text-muted">адрес вашей корпоративной почты</small>
+                  <small class="form-text text-muted">адрес вашей корпоративной почты (не обязательно)</small>
                </div>
         </div>
 

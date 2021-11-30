@@ -4,7 +4,7 @@
     <b-modal id="modal-1" title="Вложения">
 
       <div v-for="file in listFileAtta">
-        <a href="" target="_blank">{{file.filename}}</a>
+        <b><a :href="file.url" target="_blank">{{file.filename}}</a></b>
       </div>
 
     </b-modal>
