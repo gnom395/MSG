@@ -2,7 +2,10 @@
 
 
   <div>
-{{this.myinfo}}
+
+    <b-alert v-if="this.CountMes === 0" show variant="secondary">Нет сообщений</b-alert>
+    <b-alert v-else show variant="success">Есть новые сообщения ({{this.CountMes}})</b-alert>
+
   </div>
 
 
@@ -19,7 +22,7 @@
 
     data() {
       return {
-    //  seen: true,
+        CountMes: null,
       };
     },
     methods : {
@@ -27,14 +30,14 @@
         axios
         .get('/getsmallwin')
         .then(response => (
-          console.log(response.data)
+          this.CountMes = response.data
         ))
         .catch(error => console.log(error));
 
       },
     },
     mounted() {
-      
+
       this.getMesState();
     }
 
