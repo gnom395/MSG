@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\uploadcontroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GetFileListController;
+use App\Http\Controllers\getSmallWin;
 
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
@@ -109,6 +110,7 @@ Route::view('error', 'error')->name('error');
  Route::post('login', [LoginController::class, 'login']);
  Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/getsmallwin', [getSmallWin::class, 'getInfo'])->name('getsmallwin')->middleware('auth');
 
 Route::post('/getnamefiles', [GetFileListController::class, 'GetFileList'])->name('getnamefiles')->middleware('auth');
 Route::post('/upload', [uploadcontroller::class, 'UplodFiles'])->name('upload')->middleware('auth');
@@ -130,7 +132,7 @@ Route::post('/messages', function(Request $request) {
 
 Route::post('/editname', [MainController::class, 'EditName'])->name('editname')->middleware('auth');
 Route::get('/changename', [MainController::class, 'ChangeName'])->name('changename')->middleware('auth');
-
+Route::get('/smallwin', [MainController::class, 'smallwin'])->name('smallwin')->middleware('auth');
 //Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');

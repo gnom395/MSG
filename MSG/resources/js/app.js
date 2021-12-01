@@ -30,6 +30,7 @@ Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 //Vue.component('chat', require('./components/Chat.vue').default);
 Vue.component('v-header', require('./components/Header.vue').default);
 
+Vue.component('smallwin', require('./views/smallWin.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

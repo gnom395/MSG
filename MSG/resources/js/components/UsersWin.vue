@@ -54,7 +54,7 @@
   </div>
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
 
-{{usertext}}
+
 </div>
 
 </template>
@@ -157,7 +157,7 @@
           // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
 
           //console.log(data.to +' '+ this.myinfo.id +' '+data.from + ' '+ this.$route.params.id)
-          //console.log(data);
+          console.log(data);
           if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
 
             /// если новые письма уже есть

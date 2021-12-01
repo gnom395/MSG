@@ -204,8 +204,9 @@
             .error((error) => {
               console.error(error);
             })
+            /// получаем сообщения
             .listen('PresenceChat', ({data}) => {
-
+              //console.log(data);
               if(this.chattextin[0].success == 0) {
                 this.chattextin[0].success = '';
               }

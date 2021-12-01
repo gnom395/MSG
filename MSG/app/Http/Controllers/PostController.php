@@ -118,6 +118,8 @@ class PostController extends Controller
 
     /// это отправляем группе
        }  else {
+
+
          /// проверяем есть ли группа
          $group = Group::where('id',$request->to)->first();
          if(is_null($group)) {
@@ -125,6 +127,8 @@ class PostController extends Controller
            return 'error 4';
            exit;
          }
+
+
 
          $message = new Message;
          $message->fromUser = $from;
@@ -140,34 +144,48 @@ class PostController extends Controller
 
          $message->save();
 
-         $messageNew = new MessagesNew;
-         $messageNew->fromUser = $from;
-         $messageNew->toUser = $to;
-         $messageNew->toGroup = 1;
+         //$messageNew = new MessagesNew;
+         //$messageNew->fromUser = $from;
+         //$messageNew->toUser = $to;
+         //$messageNew->toGroup = 1;
 
-         $messageNew->save();
+         //$messageNew->save();
+
+
         /// добавляем сообщения
+        /// шлем на вебсокет для группы
+        $newPrivarMesG = array(
+             //'id' => $message->id,
+             'to' => $request->to,
+             'from' => $request->from,
+             'room_id' => $request->room_id,
+             'message' => $request->message,
+             'ug' => $request->ug,
+             'attach' => $request->attach,
+             'datesend' => $request->datesend,
+             'read' => $request->read
+           );
+          PresenceChat::dispatch($newPrivarMesG);
 
 
-         $messageGrp = UsersInGroup::where('id_group',$to)->get();
+             $messageGrp = UsersInGroup::where('id_group',$to)->get();
 
-      //dd($messageGrp);
+             //dd($messageGrp);
 
-    // если не прошел каунт то пусто
-         if(!count($messageGrp)) {
-
-           //$postCon = new PostController();
-           //return $postCon->answerJson('error','5','пустая группа');
-           return 'error 5';
-             exit;
-           }
-
+             // если не прошел каунт то пусто
+             if(!count($messageGrp)) {
+               return 'error 5';
+               exit;
+             }
 
 
            foreach ($messageGrp as $row) {
 
+             // не шлем себе
+              if($request->from != $row->id_user) {
+
              $messageFor = new Message;
-             $messageFor->fromUser = $from;
+             $messageFor->fromUser = $request->from;
              $messageFor->toUser = $row->id_user;
               $messageFor->toGroup = 0;
               $messageFor->id_master = $message->id;
@@ -190,14 +208,27 @@ class PostController extends Controller
               $successAr = array(
                   'success' => '1',
                   'post_id' => $message->id,
-                  'to' => $message->toUser,
-                  'from' => $message->fromUser,
+                  'to' => $row->id_user,
+                  'from' => $from,
                   'attach' => $attachFile
                 );
+                //// шлем на сокет
+                $newMesSoc = array(
+                    'room_id' => 999,
+                    'status' => 1,
+                    'to' => $row->id_user,
+                    'from' => $from,
+                    'name' => $username->name,
+                    'newmess' => 1
+                  );
+                 PresenceChat::dispatch($newMesSoc);
+                unset($newMesSoc);
+              }
             }
+            //PresenceChat::dispatch($newMesSoc);
             return json_encode($successAr);
 
-              //return MainController::answerJson('response','4','add');
+
           }
 
 
