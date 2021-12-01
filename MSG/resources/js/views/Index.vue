@@ -24,6 +24,7 @@
               <div class="col">
                 <span v-if="this.isActive">{{ isActive.name }} набирает сообщение...</span>
                 <span v-else-if="this.UserPostOnline"> Сейчас в чате</span>
+                <span v-else-if="this.UserUpGroup === 1"> Сообщение для группы</span>
                 <span v-else></span>
               </div>
             </div>
@@ -102,6 +103,7 @@ import ChatWin from '../components/ChatWin';
       isActive: false,
       UserPostOnline: false,
       showalert: false,
+      UserUpGroup: null,
 
       styleObject: {
         opacity: '1.0',
@@ -223,11 +225,12 @@ import ChatWin from '../components/ChatWin';
       }),
 
       /// имя сверху
-      this.$root.$on('NameUserUp', (id, name, online) => {
-        console.log(online);
+      this.$root.$on('NameUserUp', (id, name, online, group) => {
+        //console.log('gg'+group);
         this.UserUpId = id;
         this.UserUpName = name;
         this.UserUpOnline = online;
+        this.UserUpGroup = group;
         //alert(nameUser.name);
       }),
 

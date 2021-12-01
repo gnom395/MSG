@@ -23,16 +23,15 @@
 
 
   <div class="list-group">
-  <div v-for="showe in usertext" @click="handleClick(showe.id,showe.name,showe.online,showe.last,showe.groups_id)">
+  <div v-for="showe in usertext" @click="handleClick(showe.id,showe.name,showe.online,showe.last,showe.is_group)">
 
-      <!-- это для имени пользователя над чатом -->
+      <!-- это для имени пользователя над чатом
         <div v-if="showe.id === useridget" v-on="handleClickLoad(showe.id,showe.name,showe.online,showe.last,showe.groups_id)"></div>
 
-      <!-- это для группы над чатом -->
-
+      это для группы над чатом
       <div v-if="groupidget === 'group'">
         <div v-if="showe.groups_id === useridget" v-on="handleClickLoad(showe.id,showe.name,showe.online,showe.last,showe.groups_id)"></div>
-      </div>
+      </div>-->
 
     <router-link v-if="showe.is_group === 1" :to="'/group/' + showe.gid" class="list-group-item list-group-item-action active" title='Сообщение всем в группе'>
       <b>{{ showe.name }}</b>
@@ -53,7 +52,6 @@
   </div>
   </div>
   <b-spinner v-if="this.loading" label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
-
 
 </div>
 
@@ -157,7 +155,7 @@
           // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
 
           //console.log(data.to +' '+ this.myinfo.id +' '+data.from + ' '+ this.$route.params.id)
-          console.log(data);
+          //console.log(data);
           if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
 
             /// если новые письма уже есть
@@ -243,14 +241,14 @@
     handleClick (userid,username,useronline,userlast,group) {
 
       /// делаем id часного канала
-      this.$root.$emit('webchatconn',userid)
+      this.$root.$emit('webchatconn',userid,group)
 
       /// загружаем сообщения в чат ChatWin
       this.$root.$emit('getMessInChat')
 
       //this.$root.$emit('CleanChat')
       /// отправляем данные о пользователе в index
-      this.$root.$emit('NameUserUp',userid,username,useronline);
+      this.$root.$emit('NameUserUp',userid,username,useronline,group);
 
       //this.$root.$emit('ScrollDown')
       this.hideUserChatOff()
@@ -267,9 +265,9 @@
         }
 
     },
-    handleClickLoad (userid,username,useronline,userlast,group) {
-      this.$root.$emit('NameUser',userid,username,useronline,userlast,group)
-    }
+    //handleClickLoad (userid,username,useronline,userlast,group) {
+    //  this.$root.$emit('NameUser',userid,username,useronline,userlast,group)
+    //}
   }
 
 }

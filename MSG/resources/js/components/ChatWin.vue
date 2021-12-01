@@ -147,7 +147,7 @@
           //  // An error occurred
           //})
       },
-      webchatconn(userid) {
+      webchatconn(userid,group) {
 
         this.createIdChannel();
 
@@ -166,15 +166,18 @@
         window.Echo.join('room.' + this.UserChannel)
       //  this.channel
             .here((users) => {
-                //  console.log(users);
-
-                  for (var j = 0; j < users.length; j++){
-                    if (this.$route.params.id == users[j].id ){
-                      console.log(this.$route.params.id +' '+users[j].id);
-                      this.UserPostOnlinefun(true);
-                        break;
+                  //console.log(users);
+                  /// если пользователь то ставим статус не группа
+                  //console.log(group);
+                  if(group === 0) {
+                    for (var j = 0; j < users.length; j++){
+                      if (this.$route.params.id == users[j].id ){
+                        //console.log(this.$route.params.id +' '+users[j].id);
+                        this.UserPostOnlinefun(true);
+                          break;
+                        }
+                      }
                     }
-                  }
             })
             /// пользователь зашел в чат
             .joining((user) => {
@@ -305,7 +308,7 @@
       },
       UserPostOnlinefun(tf){
         this.UserPostOnline = tf;
-        //alert('111');
+        //alert(tf);
         this.$root.$emit('UserPostOnline',tf)
 
       }
@@ -318,15 +321,15 @@
     /// если зашли по url
     if(typeof(this.$route.params.id) !== 'undefined' ) {
       if(this.$route.params.ug == 'user') {
-        this.webchatconn(this.$route.params.id);
+        this.webchatconn(this.$route.params.id, 0);
       }else {
-        this.webchatconn(this.$route.params.id);
+        this.webchatconn(this.$route.params.id, 1);
       }
     }
 
-    this.$root.$on('webchatconn', (userid) => {
+    this.$root.$on('webchatconn', (userid,group) => {
       //alert('chatwin')
-        this.webchatconn(userid);
+        this.webchatconn(userid,group);
     })
     //this.$root.$on('OnlineUser', (userid,username,useronine) => {
     //    alert('userid');
