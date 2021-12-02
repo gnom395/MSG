@@ -166,7 +166,25 @@ class PostController extends Controller
              'read' => $request->read
            );
           PresenceChat::dispatch($newPrivarMesG);
+          /// шлем на вебсокет пользовалеля от группы
+          if($request->to < $from) {
+            $room_id = "user.".$request->to .".". $from;
+          }else {
+            $room_id = "user.".$from .".". $request->to;
+          }
 
+          $newPrivarMesGU = array(
+               'id' => $message->id,
+               'to' => $request->to,
+               'from' => $request->from,
+               'room_id' => $room_id,
+               'message' => $request->message,
+               'ug' => $request->ug,
+               'attach' => $request->attach,
+               'datesend' => $request->datesend,
+              'read' => $request->read
+             );
+            PresenceChat::dispatch($newPrivarMesGU);
 
              $messageGrp = UsersInGroup::where('id_group',$to)->get();
 
