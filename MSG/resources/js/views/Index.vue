@@ -62,6 +62,8 @@
       :myinfo="this.myinfo"
       ></FormSubmit>
     </div>
+
+
   </div>
 
 
@@ -187,18 +189,6 @@ import ChatWin from '../components/ChatWin';
 
     mounted() {
 
-      var notify = new Notification("test");
-notify.onerror = function(){
-     console.log("permission state = default or denied");
-     console.log(notify);
-};
-
-      Notification.requestPermission( newMessage );
-
-      function newMessage(permission) {
-          if( permission != "granted" ) return false;
-          var notify = new Notification("Thanks for letting notify you");
-      };
 
       /// если есть id пользователя
       if(typeof this.$route.params.id !== 'undefined') {

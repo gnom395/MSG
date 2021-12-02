@@ -74,6 +74,7 @@
       room_id: 999,
       data: '',
       pushfile: [],
+      focusWin: true,
 
       styleObject: {
         opacity: '1.0',
@@ -85,6 +86,21 @@
 
 
   mounted() {
+
+    /// пуш уведомления в браузер
+    /// запрос на получение
+          var permission,timer = setTimeout( function() { permission = "default" }, 500 );
+         Notification.requestPermission( function(state){ clearTimeout(timer); permission = state } );
+
+         window.onfocus = () => {
+           this.focusWin = true;
+           //console.log('в фокусе')
+         };
+         window.onblur = () => {
+           this.focusWin = false;
+           //console.log('потеряло фокус')
+         };
+
     this.loading = true
 
     this.getusers();
@@ -151,38 +167,44 @@
             console.error(error);
         })
         .listen('PresenceChat', ({data}) => {
-          /// новые сообщения
+
+
           // проверяем нам ли сообщение и если открыт чат  не будем ставито статус новые
+          //if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
+          if(data.to == this.myinfo.id) {
 
-          //console.log(data.to +' '+ this.myinfo.id +' '+data.from + ' '+ this.$route.params.id)
-          //console.log(data);
-          if(data.to == this.myinfo.id && data.from != this.$route.params.id) {
 
-            /// если новые письма уже есть
               for (var j = 0; j < this.usertext.length; j++){
-                  //console.log(data)
 
+                // пуш уведомления
+                if(!this.focusWin) {
+                  var mailNotification = new Notification(this.usertext[j].name, {
+                       tag : "ache-mail",
+                       body : "У вас новые сообщения",
+                       requireInteraction : true
+                       //icon : "http://habrastorage.org/storage2/cf9/50b/e87/cf950be87f8c34e63c07217a009f1d17.jpg"
+                   });
+                 }
+                 if(data.from != this.$route.params.id) {
+                 //console.log(data)
+                /// если новые письма уже есть
                 if (this.usertext[j].new_mes && data.from == this.usertext[j].id){
-                  this.usertext[j].new_mes++
-
-                  //console.log('edit'+this.usertext[j].id)
+                    this.usertext[j].new_mes++
+                    break;
                   //    this.usertext.splice(h, 1);
-
-                  break;
+                /// если новых писем нет
                 } else {
 
-                  this.usertext.unshift({
-                    id: data.from,
-                    name: data.name,
-                    new_mes: 1,
-                    online: 1
-                  })
-                //console.log('add'+this.usertext[j].id)
-                break;
-
-                  //this.usertext.unshift(data.body)
+                    this.usertext.unshift({
+                      id: data.from,
+                      name: data.name,
+                      new_mes: 1,
+                      online: 1
+                    })
+                  break;
                 }
               }
+            }
             /// если нет новых писам то создаем запись сверху
          }
 
