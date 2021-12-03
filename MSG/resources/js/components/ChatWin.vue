@@ -38,6 +38,7 @@
                </div>
               </div>
               <div class="readmes" v-else>
+                <div v-if="messdat.id">
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
                     <div v-if="messdat.attach != 0">
@@ -53,6 +54,9 @@
                     </div>
                   </div>
                 </div>
+
+              </div>
+
               </div>
             </div>
 
