@@ -52,7 +52,7 @@
         },
         mounted() {
           /// из form
-          this.$root.$on('fileInputChange', () => {
+          this.$eventBus.$on('fileInputChange', () => {
             this.fileInputChange();
           })
           /// из form
@@ -112,8 +112,8 @@
             this.showProgress = true;
             //console.log(event.target.files);
 
-            //let files = Array.from(e.target.files);
-            let files = Array.from(this.$refs.files.files);
+            let files = Array.from(event.target.files);
+            //let files = Array.from(this.$refs.files.files);
 
 
             this.filesOrder = files.slice();

@@ -107,7 +107,7 @@
      /// загрузка файлов
      fileInputChange(){
        /// UploadFile
-       this.$root.$emit('fileInputChange')
+       this.$eventBus.$emit('fileInputChange')
      },
      /// файлы
      //AttachFile(filesFinish){
