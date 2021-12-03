@@ -106,7 +106,7 @@
 
      /// загрузка файлов
      fileInputChange(){
-       /// chatwin
+       /// UploadFile
        this.$root.$emit('fileInputChange')
      },
      /// файлы

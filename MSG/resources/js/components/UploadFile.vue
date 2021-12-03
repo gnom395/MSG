@@ -1,15 +1,12 @@
 <template>
 
-
+<div>
   <div class="container" v-if="showForm">
     <div class="progress" style="height: 40px" v-if="showProgress">
       <div class="progress-bar" role="progressbar" :style="{ width: fileProgress + '%' }">
         {{ fileCurrent }} %
       </div>
     </div>
-
-
-  <!--  <input type="file" name="image" multiple="" @change="fileInputChange">-->
 
 
     <div>
@@ -32,6 +29,10 @@
     </div>
 
         </div>
+
+<input type="file" id="files" ref="files" multiple v-on:change="fileInputChange()"/>
+
+</div>
 
 
 </template>
@@ -105,12 +106,17 @@
               //this.$emit('sendfiles',this.todos)
             },
           async fileInputChange(){
+
+            //alert(e.target);
             //this.showForm = true;
             this.showProgress = true;
+            //console.log(event.target.files);
 
-            let files = Array.from(event.target.files);
+            //let files = Array.from(e.target.files);
+            let files = Array.from(this.$refs.files.files);
 
-            this.filesOrder = files.slice()
+
+            this.filesOrder = files.slice();
 
             for(let item of files) {
               await this.uploadFiles(item);
@@ -121,8 +127,8 @@
           },
           async uploadFiles(item) {
 
-            let form = new FormData()
-            form.append('file', item)
+            let form = new FormData();
+            form.append('file', item);
 
             this.showForm = true;
             this.showProgress = true;
