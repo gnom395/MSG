@@ -1,6 +1,7 @@
 <template>
 
 
+
   <div class="row border">
 <!-- d-none d-md-block  d-none d-md-block-->
     <div class="col-md-4 my-1">
@@ -31,15 +32,11 @@
           </div>
           <div class="col"><b-spinner v-if="this.loadingchat" class="float-right" label="Floated Right"></b-spinner></div>
         </div>
-
-
       </div>
-
-
     </div>
         <div class="w-100"></div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" style="height: calc(100vh - 140px);">
       <UsersWin
       class="userwin"
       :myinfo="this.myinfo"
@@ -47,7 +44,7 @@
       ></UsersWin>
     </div>
 
-    <div class="col">
+    <div class="col" style="height: calc(100vh - 140px);">
 
       <b-alert v-if="this.showalert" show variant="success">Добро пожаловать. Слева находяться контакты</b-alert>
       <div v-bind:style="styleObject">
@@ -64,7 +61,10 @@
     </div>
 
 
-  </div>
+
+</div>
+
+
 
 
 </template>
@@ -258,8 +258,10 @@ import ChatWin from '../components/ChatWin';
 
 
 .userwin {
-  overflow-y: scroll;
- height: 450px; /* Высота блока */
+ overflow-y: scroll;
+ height: 100vh;
+ //height: 450px; /* Высота блока */
+ height: 100%;
  width: 100%;
  padding: 0;
 }

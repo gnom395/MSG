@@ -347,14 +347,14 @@
 
 .scroll {
 overflow-y: scroll;
-height: 400px;
+height: calc(100vh - 240px);
 overflow-x: hidden;
 width: 100%;
 }
 
 .chatwin {
 
-height: 400px; /* Высота блока */
+height: 100%; /* Высота блока */
 width: 100%;
 position: relative;
 text-align:left;
