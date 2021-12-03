@@ -18,7 +18,7 @@
                 <div class="row">
                   <div class="col" style="text-align: left">{{ messdat.message }}<br>
 
-                    <div v-if="messdat.attach > 0">
+                    <div v-if="messdat.attach != 0">
                       <i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i>
                     </div>
 
@@ -40,7 +40,7 @@
               <div class="readmes" v-else>
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
-                    <div v-if="messdat.attach > 0">
+                    <div v-if="messdat.attach != 0">
                       <i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i>
                     </div>
                   </div>
@@ -58,7 +58,6 @@
 
 <UploadFile></UploadFile>
          </div>
-
 
 
 <br>

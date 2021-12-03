@@ -9,7 +9,6 @@
     </div>
 
 
-
   <!--  <input type="file" name="image" multiple="" @change="fileInputChange">-->
 
 

@@ -12,9 +12,12 @@ class uploadcontroller extends Controller
 {
       public function UplodFiles(Request $request) {
 
+
+
       //  if(!is_null($request->file('file')) {
           $path = $request->file('file')->store("public/".Auth::id());
           $name = $request->file('file')->getClientOriginalName();
+          $mime = $request->file('file')->getClientmimeType();
           $url = Storage::url($path);
 
           //return $request->attach;
@@ -23,6 +26,7 @@ class uploadcontroller extends Controller
           $Attachment->from_id = Auth::id();
           $Attachment->filename = $name;
           $Attachment->url = $url;
+          $Attachment->mime = $mime;
           $Attachment->date = NOW();
 
           $Attachment->save();
