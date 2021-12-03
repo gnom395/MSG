@@ -46,7 +46,7 @@
 
     <div class="col" style="height: calc(100vh - 140px);">
 
-      <b-alert v-if="this.showalert" show variant="success">Добро пожаловать. Слева находяться контакты</b-alert>
+      <b-alert v-if="this.showalert" show variant="success">👈 Добро пожаловать. Слева находяться контакты 💬</b-alert>
       <div v-bind:style="styleObject">
         <ChatWin
         :chattextin="chattext"
@@ -115,9 +115,7 @@ import ChatWin from '../components/ChatWin';
     };
   },
   methods : {
-    okDelMes(){
-      alert('sd');
-    },
+
     hideChatOff() {
       this.styleObject.opacity = '0.4',
       this.styleObject.pointerEvents = 'none'
@@ -127,10 +125,7 @@ import ChatWin from '../components/ChatWin';
           this.styleObject.opacity = '1.0',
           this.styleObject.pointerEvents = 'visible'
           this.loadingchat = false
-          //alert('v')
     },
-
-
 
 
   //  getNow() {
@@ -158,8 +153,6 @@ import ChatWin from '../components/ChatWin';
       //el.scrollIntoView(false);
     //  }
     },
-
-
     getMessage(){
 
       if(typeof(this.$route.params.id) !== 'undefined' ) {
@@ -228,7 +221,10 @@ import ChatWin from '../components/ChatWin';
       }),
 
       /// имя сверху
-      this.$root.$on('NameUserUp', (id, name, online, group) => {
+      this.$eventBus.$on('NameUserUp', (id, name, online, group) => {
+
+        //если нет id блокируем чате
+        //alert(this.UserUpId)
         //console.log('gg'+group);
         this.UserUpId = id;
         this.UserUpName = name;
@@ -245,6 +241,9 @@ import ChatWin from '../components/ChatWin';
           this.showalert = false;
       })
 
+    },
+    beforeDestroy(){
+        this.$eventBus.$off('NameUserUp');
     }
   //  beforeDestroy () {
 	//     clearInterval(this.polling)

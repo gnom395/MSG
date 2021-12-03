@@ -6,13 +6,20 @@
 
 require('./bootstrap');
 
+//Vue.prototype.$eventBus = new Vue();
+
+
+
 window.Vue = require('vue').default;
 import Vue from 'vue'
 
 import BootstrapVue from 'bootstrap-vue' //Importing
 Vue.use(BootstrapVue) // Telling Vue to use this in whole application
 
-
+//window.EventBus = new Vue();
+//Vue.prototype.$eventBus = new Vue();
+Vue.prototype.$eventBus = new Vue(); // 1способ
+//const eventBus = new Vue(); // 2 способ​
 
 //import BootstrapVueIcons from 'bootstrap-vue'
 //Vue.use(BootstrapVueIcons)
@@ -36,7 +43,8 @@ Vue.component('smallwin', require('./views/smallWin.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-//Vue.prototype.$eventBus = new Vue();
+
+
 
 import router from "./router"
 

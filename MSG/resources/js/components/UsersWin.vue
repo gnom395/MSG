@@ -236,10 +236,12 @@
 
       for (var j = 0; j < usert.length; j++){
         if (this.$route.params.id == usert[j].id ){
-          //console.log(usert[j]);
-          /// отправляем имя в шапку
-          this.$root.$emit('NameUserUp',usert[j].id,usert[j].name,usert[j].online);
+
+          this.$eventBus.$emit('NameUserUp', usert[j].id, usert[j].name, usert[j].online);
           //this.UserPostOnlinefun(true);
+          /// вызвать в index
+          //this.$parent.NameUserUp(usert[j].id,usert[j].name,usert[j].online);
+
             break;
         }
       }
@@ -268,9 +270,8 @@
       /// загружаем сообщения в чат ChatWin
       this.$root.$emit('getMessInChat')
 
-      //this.$root.$emit('CleanChat')
       /// отправляем данные о пользователе в index
-      this.$root.$emit('NameUserUp',userid,username,useronline,group);
+      this.$eventBus.$emit('NameUserUp',userid,username,useronline,group);
 
       //this.$root.$emit('ScrollDown')
       this.hideUserChatOff()
