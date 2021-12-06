@@ -56,6 +56,8 @@ Route::get('/login', function(Request $request) {
   $ip_node = $ip_parts[0].".".$ip_parts[1].".";
   $ip_node_full = $ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".";
 
+dd($ip);
+
   /// если из нашей сети то регестрируем авто вход
     if($ip_node == '192.168.') {
       // если ip есть в базе
