@@ -10,6 +10,7 @@ use App\Http\Controllers\uploadcontroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GetFileListController;
 use App\Http\Controllers\getSmallWin;
+use App\Http\Controllers\getName;
 
 use App\Events\PresenceChat;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ use App\Models\UsersInGroup;
 //    return view('welcome');
 //});
 //$ip = "192.168.88.16";
+Route::get('/getname2', [getName::class, 'getName'])->name('getname2');
 
 
 Route::get('/register', function(Request $request) {
@@ -107,8 +109,10 @@ Route::get('/login', function(Request $request) {
 
 Route::view('error', 'error')->name('error');
 
- Route::post('login', [LoginController::class, 'login']);
- Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/getsmallwin', [getSmallWin::class, 'getInfo'])->name('getsmallwin')->middleware('auth');
 

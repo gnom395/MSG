@@ -56,7 +56,16 @@
             email: null
           };
         },
+
         mounted() {
+
+            axios
+            .get('/getname')
+            .then(response => (
+              //this.usertext = response.data
+              console.log(response.data)
+            ))
+            .catch(error => console.log(error));
 
       },
       methods: {

@@ -14,8 +14,19 @@
         </label>
       </b-input-group-prepend>
 
+      <b-form-textarea
+        id="textarea"
+        v-model="message"
+        ref="message"
+        placeholder="Введите текст"
+        v-on:keyup.ctrl.enter="submit"
+        @keydown="UserPrintMess"
+        rows="3"
+        max-rows="6"
+      ></b-form-textarea>
+      <!--
       <b-form-input class="inputsend" type="text" placeholder="Введите текст" v-model="message" rows="1" ref="message" v-on:keyup.ctrl.enter="submit"  autocomplete="off" @keydown="UserPrintMess"></b-form-input>
-
+    -->
 
       <b-input-group-prepend>
         <!--<i class="bi bi-send sendbut" style="font-size:30px;"></i>-->
@@ -183,16 +194,15 @@
 }
 
 .sendbut {
-  padding-top:5px;
-  padding-right:4px;
+  padding:6px;
 }
 .sendbut:active {
  opacity: .4;
 }
 
 .filebut {
-  padding-left:3px;
-  padding-top:6px;
+  padding:6px;
+  //padding-top:6px;
 }
 .filebut:active {
   opacity: .4;
@@ -202,6 +212,7 @@
 
 
 .butdown {
+    padding: 0.5rem;
     background-color: #ffffff;
     width: 100%;
 }

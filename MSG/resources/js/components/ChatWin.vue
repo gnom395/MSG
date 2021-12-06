@@ -16,7 +16,7 @@
               <div style="text-align: right" v-if="messdat.from === myid">
               <div class="sendmes">
                 <div class="row">
-                  <div class="col" style="text-align: left">{{ messdat.message }}<br>
+                  <div class="col" style="text-align: left"><pre>{{ messdat.message }}</pre>
 
                     <div v-if="messdat.attach != 0">
                       <i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i>
@@ -40,7 +40,7 @@
               <div class="readmes" v-else>
                 <div v-if="messdat.id">
                 <div class="row">
-                  <div class="col">{{ messdat.message }}<br>
+                  <div class="col"><pre>{{ messdat.message }}</pre>
                     <div v-if="messdat.attach != 0">
                       <i class="bi bi-paperclip fileAttach" @click="showModalFile(messdat.attach)"></i>
                     </div>
@@ -348,22 +348,21 @@
 <style scoped>
 
 .scroll {
-overflow-y: scroll;
-height: calc(100vh - 240px);
-overflow-x: hidden;
-width: 100%;
+  overflow-y: scroll;
+  //height: calc(100vh - 240px);
+  height: calc(100vh - 270px);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .chatwin {
 
-height: 100%; /* Высота блока */
-width: 100%;
-position: relative;
-text-align:left;
-height: 100%;
+  height: 100%; /* Высота блока */
+  width: 100%;
+  position: relative;
+  text-align:left;
+  height: 100%;
 }
-
-
 
 .sendmes {
   max-width:450px;
