@@ -61,7 +61,9 @@
             </div>
 
 <UploadFile></UploadFile>
+
          </div>
+
 
 
 <br>
@@ -75,13 +77,13 @@
 </template>
 
 <script>
-  import UploadFile from '../components/UploadFile';
   import WinFiles from '../components/WinFiles';
+  import UploadFile from '../components/UploadFile';
 
   export default {
     components: {
-        UploadFile,
-        WinFiles
+        WinFiles,
+        UploadFile
     },
 
     data() {

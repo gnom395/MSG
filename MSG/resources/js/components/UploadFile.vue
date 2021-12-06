@@ -2,6 +2,7 @@
 
 <div>
   <div class="container" v-if="showForm">
+
     <div class="progress" style="height: 40px" v-if="showProgress">
       <div class="progress-bar" role="progressbar" :style="{ width: fileProgress + '%' }">
         {{ fileCurrent }} %
@@ -30,7 +31,8 @@
 
         </div>
 
-<input type="file" id="files" ref="files" multiple v-on:change="fileInputChange()"/>
+
+
 
 </div>
 
@@ -38,6 +40,7 @@
 </template>
 
 <script>
+
   export default {
     data() {
         return {
@@ -52,8 +55,8 @@
         },
         mounted() {
           /// из form
-          this.$eventBus.$on('fileInputChange', () => {
-            this.fileInputChange();
+          this.$eventBus.$on('fileInputChange', (files) => {
+            this.fileInputChange(files);
           })
           /// из form
           this.$root.$on('ListFileClean', () => {
@@ -105,14 +108,14 @@
 
               //this.$emit('sendfiles',this.todos)
             },
-          async fileInputChange(){
+          async fileInputChange(files){
 
             //alert(e.target);
             //this.showForm = true;
             this.showProgress = true;
             //console.log(event.target.files);
 
-            let files = Array.from(event.target.files);
+            //let files = Array.from(event.target.files);
             //let files = Array.from(this.$refs.files.files);
 
 
@@ -126,6 +129,7 @@
             //console.log(this.filesFinish);
           },
           async uploadFiles(item) {
+
 
             let form = new FormData();
             form.append('file', item);

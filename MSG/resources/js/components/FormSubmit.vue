@@ -8,8 +8,9 @@
     <b-input-group>
 
       <b-input-group-prepend>
+
         <label>
-          <img src="/assets/img/attachment.png" class="filebut"> <input type="file" style="display: none;" name="image" multiple="" @change="fileInputChange">
+          <img src="/assets/img/attachment.png" class="filebut"> <input type="file" style="display: none;" id="files" ref="files" name="image" multiple="" @change="fileInputChange">
         </label>
       </b-input-group-prepend>
 
@@ -45,9 +46,7 @@
 
     export default {
       components: {
-      //  ListFile,
-        Spin,
-//        UploadFile
+        Spin
       },
 
       //props: ['myid','myip','myname'],
@@ -106,8 +105,9 @@
 
      /// загрузка файлов
      fileInputChange(){
+       let files = Array.from(this.$refs.files.files);
        /// UploadFile
-       this.$eventBus.$emit('fileInputChange')
+       this.$eventBus.$emit('fileInputChange',files)
      },
      /// файлы
      //AttachFile(filesFinish){
