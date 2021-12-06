@@ -38,7 +38,7 @@ use App\Models\UsersInGroup;
 //    return view('welcome');
 //});
 //$ip = "192.168.88.16";
-Route::get('/getname2', [getName::class, 'getName'])->name('getname2');
+
 
 
 Route::get('/register', function(Request $request) {
@@ -109,7 +109,7 @@ Route::get('/login', function(Request $request) {
 
 Route::view('error', 'error')->name('error');
 
-
+Route::get('/getname', [getName::class, 'getName'])->name('getname');
 
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');

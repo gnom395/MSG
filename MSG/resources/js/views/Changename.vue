@@ -62,8 +62,10 @@
             axios
             .get('/getname')
             .then(response => (
+              this.name = response.data.name,
+              this.email = response.data.email
               //this.usertext = response.data
-              console.log(response.data)
+              //console.log(response.data)
             ))
             .catch(error => console.log(error));
 
