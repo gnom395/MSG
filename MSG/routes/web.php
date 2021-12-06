@@ -48,6 +48,7 @@ Route::get('/register', function(Request $request) {
   return view('auth/register');
 })->name('register');
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/login', function(Request $request) {
 
   $ip = $request->ip();
