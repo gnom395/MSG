@@ -99,7 +99,7 @@ Route::get('/login', function(Request $request) {
 
           Auth::loginUsingId($User->id, $remember = true);
           //return view('changename', ['user' => Auth::user() ]);
-          return redirect()->route('changename');
+          return redirect()->route('register');
       }
     }
 
@@ -143,5 +143,5 @@ Route::get('/smallwin', [MainController::class, 'smallwin'])->name('smallwin')->
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-//Route::get('/{any}', [MainController::class, 'EnterToChat'])->where('any', '.*')->middleware('auth');
+Route::get('/{any}', [MainController::class, 'EnterToChat'])->where('any', '.*')->middleware('auth');
 // The user is logged in...
