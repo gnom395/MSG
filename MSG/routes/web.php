@@ -99,7 +99,7 @@ Route::get('/login', function(Request $request) {
 
           Auth::loginUsingId($User->id, $remember = true);
           //return view('changename', ['user' => Auth::user() ]);
-          return redirect()->route('register');
+          return redirect()->route('changename');
       }
     }
 
