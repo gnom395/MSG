@@ -67,8 +67,7 @@ Route::get('/login', function(Request $request) {
       $User = User::where('ip', $ip)->first();
       if(!is_null($User)) {
         // есть в базе
-        Auth::loginUsingId($User->id);
-        //return redirect()->route('home',array('user' => Auth::user()));
+        Auth::loginUsingId($User->id, $remember = true);
         return view('index', ['user' => Auth::user() ]);
       } else {
         /// если нет то регестрируем
@@ -102,7 +101,7 @@ Route::get('/login', function(Request $request) {
           $Users_in_group->id_user = $User->id;
           $Users_in_group->save();
 
-          Auth::loginUsingId($User->id);
+          Auth::loginUsingId($User->id, $remember = true);
           //return view('changename', ['user' => Auth::user() ]);
           return redirect()->route('changename');
       }
