@@ -41,6 +41,7 @@ window.Echo = new Echo({
      //wsHost: 'msg.metizi.com',
      //wsHost: '172.25.0.112',
      wsPort: 6001,
+     wssPort: 6001,
      disableStats: true,
-     forceTLS: false
+     //forceTLS: false
  });
