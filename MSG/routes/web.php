@@ -66,11 +66,8 @@ Route::get('/login', function(Request $request) {
       // если ip есть в базе
       $User = User::where('ip', $ip)->first();
       if(!is_null($User)) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
         // есть в базе
-        Auth::loginUsingId($User->id, $remember = true);
+        Auth::loginUsingId($User->id);
         return view('index', ['user' => Auth::user() ]);
       } else {
         /// если нет то регестрируем
@@ -104,7 +101,7 @@ Route::get('/login', function(Request $request) {
           $Users_in_group->id_user = $User->id;
           $Users_in_group->save();
 
-          Auth::loginUsingId($User->id, $remember = true);
+          Auth::loginUsingId($User->id);
           //return view('changename', ['user' => Auth::user() ]);
           return redirect()->route('changename');
       }
