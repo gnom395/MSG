@@ -107,13 +107,16 @@ Route::get('/login', function(Request $request) {
   ///  return redirect(route('home'));
   ///}
   return view('auth/login');
+  //LoginController::login();
+
 })->name('login');
 
-Route::view('error', 'error')->name('error');
+Route::post('login', [LoginController::class, 'login']);
 
+Route::view('error', 'error')->name('error');
 Route::get('/getname', [getName::class, 'getName'])->name('getname');
 
-Route::post('login', [LoginController::class, 'login']);
+
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/getsmallwin', [getSmallWin::class, 'getInfo'])->name('getsmallwin')->middleware('auth');
