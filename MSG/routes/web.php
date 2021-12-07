@@ -69,7 +69,7 @@ Route::get('/login', function(Request $request) {
         // есть в базе
         Auth::loginUsingId($User->id);
 
-        return redirect()->route('home',array('user' => Auth::user()))
+        return redirect()->route('home',array('user' => Auth::user()));
         //return view('index', ['user' => Auth::user() ]);
       } else {
         /// если нет то регестрируем
