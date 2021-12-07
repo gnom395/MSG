@@ -68,7 +68,9 @@ Route::get('/login', function(Request $request) {
       if(!is_null($User)) {
         // есть в базе
         Auth::loginUsingId($User->id);
-        return view('index', ['user' => Auth::user() ]);
+
+        return redirect()->route('home',array('user' => Auth::user()))
+        //return view('index', ['user' => Auth::user() ]);
       } else {
         /// если нет то регестрируем
         /// проверяем есть ли группа по ноде
