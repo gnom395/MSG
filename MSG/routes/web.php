@@ -150,5 +150,5 @@ Route::get('/smallwin', [MainController::class, 'smallwin'])->name('smallwin')->
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::get('/{any}', [MainController::class, 'EnterToChat'])->where('any', '.*')->middleware('auth');
+//Route::get('/{any}', [MainController::class, 'EnterToChat'])->where('any', '.*')->middleware('auth');
 // The user is logged in...
