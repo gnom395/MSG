@@ -66,6 +66,9 @@ Route::get('/login', function(Request $request) {
       // если ip есть в базе
       $User = User::where('ip', $ip)->first();
       if(!is_null($User)) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         // есть в базе
         Auth::loginUsingId($User->id, $remember = true);
         return view('index', ['user' => Auth::user() ]);
