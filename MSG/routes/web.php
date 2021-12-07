@@ -45,7 +45,11 @@ Route::get('/register', function(Request $request) {
   if(Auth::check()) {
     return redirect(route('home'));
   }
-  return view('auth/register');
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return view('auth/register');
+
 })->name('register');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
