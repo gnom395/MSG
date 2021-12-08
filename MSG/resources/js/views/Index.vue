@@ -46,7 +46,7 @@
 
     <div class="col" style="height: calc(100vh - 140px);">
 
-      <b-alert v-if="this.showalert" show variant="success">👈 Добро пожаловать. Слева находяться контакты 💬</b-alert>
+      <b-alert v-if="this.showalert" show variant="success">👈 Добро пожаловать. Слева находятся контакты 💬</b-alert>
       <div v-bind:style="styleObject">
         <ChatWin
         :chattextin="chattext"
